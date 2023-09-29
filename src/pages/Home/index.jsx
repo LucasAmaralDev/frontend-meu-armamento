@@ -75,7 +75,7 @@ export default function Home() {
                         options={donutChartData.options}
                         series={donutChartData.series}
                         type="donut"
-                        width="380"
+                        width="700"
                     />
                 </div>
 
