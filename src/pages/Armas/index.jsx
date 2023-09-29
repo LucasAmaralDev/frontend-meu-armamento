@@ -208,7 +208,7 @@ export default function Armas() {
                                 >
                                     <option value="">Selecione</option>
                                     <option value="NOVO">Novo</option>
-                                    <option value="EXELENTE">Exelente</option>
+                                    <option value="EXCELENTE">Excelente</option>
                                     <option value="BOM">Bom</option>
                                     <option value="REGULAR">Regular</option>
                                     <option value="BAIXADA">Baixada</option>

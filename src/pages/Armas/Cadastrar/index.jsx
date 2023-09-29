@@ -100,7 +100,7 @@ export default function CadastrarArma() {
                     } className={cssSelect}>
                         <option value="">Selecione o Estado de Conservação</option>
                         <option value="NOVO">Novo</option>
-                        <option value="EXELENTE">Excelente</option>
+                        <option value="EXCELENTE">Excelente</option>
                         <option value="BOM">Bom</option>
                         <option value="REGULAR">Regular</option>
                         <option value="BAIXADA">Baixada</option>
