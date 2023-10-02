@@ -96,7 +96,7 @@ export default function GraficoArmasPorParametros() {
 
                 armasPorTipo.length > 0 &&
 
-                <div className="flex items-center flex-col gap-8 py-8 w-5/12 max-lg:w-full">
+                <div className="flex items-center flex-col gap-8 py-8 w-full max-lg:w-full">
 
                     <h3 className='text-3xl'> Armas por Tipo</h3>
 
@@ -104,7 +104,7 @@ export default function GraficoArmasPorParametros() {
                         options={chartArmasPorTipo.options}
                         series={chartArmasPorTipo.series}
                         type="bar"
-                        width="900"
+                        width="700"
                     />
                 </div>
 
@@ -123,7 +123,7 @@ export default function GraficoArmasPorParametros() {
                         options={chartArmasPorEstadoConservacao.options}
                         series={chartArmasPorEstadoConservacao.series}
                         type="bar"
-                        width="900"
+                        width="700"
                     />
                 </div>
 

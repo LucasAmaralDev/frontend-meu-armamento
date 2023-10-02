@@ -52,10 +52,10 @@ export default function HeaderLogado(props) {
 
     return (
       <header>
-        <div className='flex w-full justify-around bg-stone-900 max-lg:flex-col max-lg:justify-center items-center p-6 max-sm:h-32'
+        <div className='flex w-full justify-around bg-stone-900 h-24 max-lg:flex-col max-lg:justify-center items-center p-6 max-sm:h-32'
         >
           <div className='max-lg:flex max-lg:justify-center'>
-            <img src={logo} alt="Logo Gestão Armas" className='w-4/5 md:w-6/12'
+            <img src={logo} alt="Logo Gestão Armas" className='w-4/5 md:w-4/12'
             />
           </div>
 
@@ -63,12 +63,12 @@ export default function HeaderLogado(props) {
             <div className='flex flex-col justify-center items-center gap-2 p-2 '
             >
               <h1
-                className='text-white'
+                className='text-white text-xs'
               >{meusDados.registroMilitar} | {meusDados.nome}</h1>
               <div>
                 <div className=''>
                   <div className=''>
-                    <button className='text-white border-2 border-stone-700 rounded-md px-2'
+                    <button className='text-white border-2 border-stone-700 rounded-md px-2 text-sm'
                       onClick={
                         () => setOpen(!open)
                       }>{open ? 'Fechar Menu' : 'Abrir Menu'}</button>
@@ -79,7 +79,7 @@ export default function HeaderLogado(props) {
                           zIndex: 100
                         }}
                         className={
-                          open ? 'absolute top-0 max-sm:top-40 left-0 bg-stone-900 rounded-md p-3 flex flex-col gap-2 max-sm:gap-8 transition-all border-2 manual-left border-stone-700 max-sm:w-full max-sm:text-center max-sm:text-2xl z-'
+                          open ? 'absolute top-0 max-sm:top-40 left-0 bg-stone-900 rounded-md p-3 flex flex-col gap-2 max-sm:gap-8 transition-all border-2 manual-left border-stone-700 max-sm:w-full max-sm:text-center max-sm:text-2xl '
                             : 'absolute w-0 top-0 max-sm:top-40 overflow-hidden transition-all left-0 flex flex-col gap-2'
                         }>
                         <Link to='/home'

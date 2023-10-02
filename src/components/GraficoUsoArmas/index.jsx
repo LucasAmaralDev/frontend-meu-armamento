@@ -20,6 +20,9 @@ export default function GraficoUsoArmas(props) {
     const donutChartData = {
         options: {
             labels: dataDashboard.map((element) => element.item),
+            legend: {
+                fontSize: '16px', // Defina o tamanho da fonte desejado, por exemplo, '16px'
+            },
         },
         series: dataDashboard.map((element) => element.valor),
     };
@@ -27,15 +30,14 @@ export default function GraficoUsoArmas(props) {
     return (
         <>
 
-            <div className="flex items-center flex-col gap-8 py-8 w-5/12 max-lg:hidden">
+            <div className="flex items-center flex-col gap-8 py-8 w-full max-lg:hidden">
 
                 <h3 className='text-3xl'> Arsenal de Armas</h3>
-
                 <ReactApexChart
                     options={donutChartData.options}
                     series={donutChartData.series}
                     type="donut"
-                    width="700"
+                    width="600"
                 />
             </div>
 
