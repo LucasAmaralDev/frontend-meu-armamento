@@ -4,6 +4,7 @@ import ModalResposta from '../ModalResposta'
 
 export default function BotaoAcoesMilitares(props) {
 
+    const [batalhoes, setBatalhoes] = useState([])
     const [open, setOpen] = useState(false)
     const [modal, setModal] = useState(false)
     const [dadosModal, setDadosModal] = useState({})
@@ -41,6 +42,28 @@ export default function BotaoAcoesMilitares(props) {
         };
       }, []);
 
+    
+    async function getBatalhoes() {
+        const response = await fetch(HOST + 'batalhao', {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+
+        const dataResponse = await response.json()
+
+        if (response.ok) {
+            setBatalhoes(dataResponse)
+        }
+        console.log(dataResponse)
+    }
+
+    useEffect(() => {
+        getBatalhoes()
+    }, [])
+
+
 
 
 
@@ -64,7 +87,6 @@ export default function BotaoAcoesMilitares(props) {
         const data = await response.json()
 
         if (response.ok) {
-            props.atualizarDados()
             setDadosModal({
                 titulo: 'Sucesso',
                 mensagem: 'Militar atualizado com sucesso'
@@ -102,9 +124,6 @@ export default function BotaoAcoesMilitares(props) {
                 mensagem: 'Militar deletado com sucesso',
             })
             setModal(true)
-            setTimeout(() => {
-                props.atualizarDados()
-            }, 2000)
         }
 
         else {
@@ -121,7 +140,7 @@ export default function BotaoAcoesMilitares(props) {
     return (
         <>
 
-            <ModalResposta modal={modal} setModal={setModal} titulo={dadosModal.titulo} mensagem={dadosModal.mensagem} />
+            <ModalResposta modal={modal} action={props.atualizarDados} setModal={setModal} titulo={dadosModal.titulo} mensagem={dadosModal.mensagem} />
 
             {/* MODAL DE VER AS INFORMAÇÔES DO MILITAR */}
 
@@ -172,7 +191,7 @@ export default function BotaoAcoesMilitares(props) {
                                 <h1 className='text-xl font-bold' >
                                     Batalhão
                                 </h1>
-                                <p className='text-xl font-light' >{props.militar.batalhao}</p>
+                                <p className='text-xl font-light' >{props.militar.batalhaoMilitar.nome}</p>
                             </div>
 
                             <div
@@ -248,10 +267,18 @@ export default function BotaoAcoesMilitares(props) {
                                     Batalhão
                                 </label>
 
-                                <input type="text" id='batalhao' className='w-60 text-center h-10 rounded-md border-2 border-gray-300 focus:outline-none px-4'
+                                <select type="text" id='batalhao' className='w-60 text-center h-10 rounded-md border-2 focus:outline-none px-4'
                                     value={militarDados.batalhao}
                                     onChange={e => setMilitarDados({ ...militarDados, batalhao: e.target.value })}
-                                />
+                                >
+                                    {
+                                        batalhoes.map((batalhao, index) => {
+                                            return (
+                                                <option key={index} value={batalhao.id}>{batalhao.nome}</option>
+                                            )
+                                        })
+                                    }
+                                </select>
 
                             </div>
 

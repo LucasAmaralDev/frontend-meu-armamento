@@ -14,7 +14,8 @@ export default function Registros() {
     const [registrosFiltrados, setRegistrosFiltrados] = useState([])
     const [filtro, setFiltro] = useState({
         registroMilitar: '',
-        numeroSerie: ''
+        numeroSerie: '',
+        dataDevolucao: ''
     })
 
     async function carregarRegistros() {
@@ -59,7 +60,7 @@ export default function Registros() {
         const listaDeMilitares = []
 
         // Caso nao haja nenhum filtro aplicado, a lista de registros Filtrados recebe todas as armas
-        if (filtro.registroMilitar.length < 1 && filtro.numeroSerie.length < 1) {
+        if (filtro.registroMilitar.length < 1 && filtro.numeroSerie.length < 1 && filtro.dataDevolucao.length < 1) {
             setRegistrosFiltrados(registros)
             console.log(listaDeMilitares)
             return
@@ -76,6 +77,10 @@ export default function Registros() {
                 return
             }
 
+            if (filtro.dataDevolucao === 'true' && !registro.dataDevolucao || filtro.dataDevolucao === 'false' && registro.dataDevolucao) {
+
+                return
+            }
             listaDeMilitares.push(registro)
         })
 
@@ -135,6 +140,27 @@ export default function Registros() {
                                         })
                                     }}
                                 />
+                            </div>
+
+                            <div
+                                className='flex flex-col justify-around items-center w-1/5 h-full max-lg:w-full'>
+                                <label htmlFor='dataDevolucao' className='text-2xl'>Devolução</label>
+
+                                <select
+                                    id='dataDevolucao'
+                                    className='w-full px-2 py-1 rounded-md border-2 text-center border-gray-400 focus:border-blue-500 focus:outline-none text-xl'
+                                    value={filtro.dataDevolucao}
+                                    onChange={(e) => {
+                                        setFiltro({
+                                            ...filtro,
+                                            dataDevolucao: e.target.value
+                                        })
+                                    }}
+                                >
+                                    <option value=''>Todos os Registros</option>
+                                    <option value='false'>Não Devolvidos</option>
+                                    <option value='true'>Devolvidos</option>
+                                </select>
                             </div>
 
                         </div>

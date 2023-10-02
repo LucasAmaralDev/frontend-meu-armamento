@@ -44,12 +44,12 @@ export default function BotaoAcoes(props) {
   const [armaDados, setArmaDados] = useState({
     id: props.arma.id,
     numeroSerie: props.arma.numeroSerie,
-    fabricante: props.arma.fabricante,
+    fabricante: props.arma.fabricanteArma.nome,
     modelo: props.arma.modelo,
     calibre: props.arma.calibre,
     capacidadeCarregador: props.arma.capacidadeCarregador,
     estadoConservacao: props.arma.estadoConservacao,
-    tipo: props.arma.tipo,
+    tipo: props.arma.tipoArma.tipo,
     anoFabricacao: props.arma.anoFabricacao,
     dataCadastro: props.arma.dataCadastro,
   })
@@ -66,7 +66,7 @@ export default function BotaoAcoes(props) {
       },
       mode: 'cors',
       body: JSON.stringify({
-        ...armaDados
+        estadoConservacao: armaDados.estadoConservacao
       })
 
     })
@@ -187,7 +187,7 @@ export default function BotaoAcoes(props) {
 
                 <p
                   className='text-xl font-light'
-                >{props.arma.fabricante}</p>
+                >{props.arma.fabricanteArma.nome}</p>
 
               </div>
 
@@ -252,7 +252,7 @@ export default function BotaoAcoes(props) {
 
                 <p
                   className='text-xl font-light'
-                >{props.arma.tipo}</p>
+                >{props.arma.tipoArma.tipo}</p>
 
               </div>
 

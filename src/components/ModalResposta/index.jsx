@@ -10,8 +10,6 @@ export default function ModalResposta(props) {
 
     const titulo = props.titulo
 
-    const action = props.action
-
 
 
     return (
@@ -45,8 +43,8 @@ export default function ModalResposta(props) {
                                 className='w-1/2 h-10 bg-blue-500 text-white rounded-lg'
                                 onClick={() => {
                                     setModal(false)
-                                    if (action) {
-                                        action()
+                                    if (props.action) {
+                                        props.action()
                                     }
                                 }}
                             >

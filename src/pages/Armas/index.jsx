@@ -94,7 +94,7 @@ export default function Armas() {
                 return
             }
 
-            if (filtro.fabricante && !arma.fabricante.toUpperCase().includes(filtro.fabricante.toUpperCase())) {
+            if (filtro.fabricante && !arma.fabricanteArma.nome.toUpperCase().includes(filtro.fabricante.toUpperCase())) {
                 return
             }
 
@@ -249,6 +249,7 @@ export default function Armas() {
                                         <th className='p-2 max-lg:hidden'>Fabricante</th>
                                         <th className='p-2 max-lg:hidden'>Ano de Fabricação</th>
                                         <th className='p-2 max-lg:hidden'>Estado de Conservação</th>
+                                        <th className='p-2'>Em Uso</th>
                                         <th className='p-2'>Ações</th>
                                     </tr>
                                 </thead>
@@ -260,9 +261,10 @@ export default function Armas() {
                                                     <tr key={arma.id}>
                                                         <td className='py-2'>{arma.numeroSerie}</td>
                                                         <td className='py-2'>{arma.modelo}</td>
-                                                        <td className='py-2 max-lg:hidden'>{arma.fabricante}</td>
+                                                        <td className='py-2 max-lg:hidden'>{arma.fabricanteArma.nome}</td>
                                                         <td className='py-2 max-lg:hidden'>{arma.anoFabricacao}</td>
                                                         <td className='py-2 max-lg:hidden'>{arma.estadoConservacao}</td>
+                                                        <td className='py-2'>{arma.emUso ? 'Sim' : 'Não'}</td>
                                                         <td className='py-2'>
                                                             <BotaoAcoes arma={arma} atualizarDados={carregarArmas} />
                                                         </td>
@@ -272,7 +274,7 @@ export default function Armas() {
                                         })
 
                                             : <tr>
-                                                <td colSpan='6' className='py-2'>Não Ha Informações</td>
+                                                <td colSpan='7' className='py-2'>Não Ha Informações</td>
                                             </tr>
                                     }
                                 </tbody>
@@ -286,7 +288,7 @@ export default function Armas() {
 
                                     <tr>
 
-                                        <td className='py-2' colSpan='6'>
+                                        <td className='py-2' colSpan='7'>
 
                                             <div className='w-full flex justify-center items-center gap-2'>
                                                 

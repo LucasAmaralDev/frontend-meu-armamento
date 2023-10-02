@@ -1,14 +1,34 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import EscopoAdmin from '../../../components/EscopoAdmin'
 import { useForm } from 'react-hook-form'
 import HOST from '../../../services/host'
 import ModalResposta from '../../../components/ModalResposta'
 import { cssButtonConfirm, cssInput, cssSelect } from '../../../services/utils'
+import ModalFabricantes from '../../../components/ModalFabricantes'
 
 export default function CadastrarArma() {
 
     const [modal, setModal] = useState(false)
     const [dataModal, setDataModal] = useState({})
+    const [fabricantes, setFabricantes] = useState([])
+
+    async function getFabricantes() {
+        const response = await fetch(HOST + 'fabricante', {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            },
+        })
+        const dataResponse = await response.json()
+        if (response.ok) {
+            setFabricantes(dataResponse)
+        }
+        console.log(dataResponse)
+    }
+
+    useEffect(() => {
+        getFabricantes()
+    }, [])
 
     function retornarParaPaginaAnterior() {
         window.location.href = '/armas'
@@ -78,10 +98,23 @@ export default function CadastrarArma() {
                     <input type="text" {
                         ...register('numeroSerie')
                     } placeholder='Numero de Serie' className={cssInput} />
-
-                    <input type="text" {
-                        ...register('fabricante')
-                    } placeholder='Fabricante' className={cssInput} />
+                    
+                    
+                    <div className='w-full gap-1 flex items-center flex-col'>
+                        <select type="text" {
+                            ...register('fabricante')
+                        } placeholder='Fabricante' className={cssSelect} >
+                            <option>Selecione um fabricante</option>
+                            {
+                                fabricantes.map((fabricante, index) => {
+                                    return (
+                                        <option key={index} value={fabricante.id}>{fabricante.nome}</option>
+                                    )
+                                })
+                            }
+                        </select>
+                        <ModalFabricantes fabricantes={fabricantes} getFabricantes={getFabricantes} />
+                    </div>
 
                     <input type="text" {
                         ...register('modelo')
@@ -110,13 +143,13 @@ export default function CadastrarArma() {
                         ...register('tipo')
                     } className={cssSelect}>
                         <option value="">Selecione o Tipo</option>
-                        <option value="PISTOLA">Pistola</option>
-                        <option value="REVOLVER">Revolver</option>
-                        <option value="ESPINGARDA">Espingarda</option>
-                        <option value="FUZIL">Fuzil</option>
-                        <option value="SUBMETRALHADORA">Submetralhadora</option>
-                        <option value="CARABINA">Carabina</option>
-                        <option value="ESCOPETA">Escopeta</option>
+                        <option value="1">Pistola</option>
+                        <option value="2">Revolver</option>
+                        <option value="3">Espingarda</option>
+                        <option value="4">Fuzil</option>
+                        <option value="5">Submetralhadora</option>
+                        <option value="6">Carabina</option>
+                        <option value="7">Escopeta</option>
                     </select>
 
                     <input {

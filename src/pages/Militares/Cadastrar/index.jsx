@@ -1,14 +1,35 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import EscopoAdmin from '../../../components/EscopoAdmin'
 import { useForm } from 'react-hook-form'
 import HOST from '../../../services/host'
 import ModalResposta from '../../../components/ModalResposta'
 import { cssButtonConfirm, cssInput } from '../../../services/utils'
+import ModalBatalhoes from '../../../components/ModaBatalhaoes'
 
 export default function CadastrarMilitar() {
 
     const [modal, setModal] = useState(false)
     const [dataModal, setDataModal] = useState({})
+    const [batalhoes, setBatalhoes] = useState([])
+
+    async function getBatalhoes() {
+        const response = await fetch(HOST + 'batalhao', {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        }
+        )
+        const dataResponse = await response.json()
+        if (response.ok) {
+            setBatalhoes(dataResponse)
+        }
+        console.log(dataResponse)
+    }
+
+    useEffect(() => {
+        getBatalhoes()
+    }, [])
 
     function retornarParaPaginaAnterior() {
         window.location.href = '/militares'
@@ -76,9 +97,23 @@ export default function CadastrarMilitar() {
                         ...register('nome')
                     } placeholder='Nome' className={cssInput} />
 
-                    <input type="text" {
-                        ...register('batalhao')
-                    } placeholder='Batalhão' className={cssInput} />
+
+                    <div className='w-full flex flex-col items-center gap-2'>
+                        <select type="text" {
+                            ...register('batalhao')
+                        } placeholder='Batalhão' className={cssInput}>
+                            <option value="">Selecione um Batalhão</option>
+                            {
+                                batalhoes.map((batalhao, index) => {
+                                    return (
+                                        <option key={index} value={batalhao.id}>{batalhao.nome}</option>
+                                    )
+                                })
+                            }
+                        </select>
+                        <ModalBatalhoes batalhoes={batalhoes} getBatalhoes={getBatalhoes} />
+
+                    </div>
 
                     <button {
                         ...register('cadastrar')

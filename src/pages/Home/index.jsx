@@ -1,34 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import EscopoAdmin from '../../components/EscopoAdmin'
-import HOST from '../../services/host'
-import CardDashboard from '../../components/CardDashboard'
-import ReactApexChart from 'react-apexcharts';
+import React, { useEffect, useState } from 'react';
+import CardDashboard from '../../components/CardDashboard';
+import EscopoAdmin from '../../components/EscopoAdmin';
+import GraficoArmasPorParametros from '../../components/GraficoArmasPorParametros';
+import GraficoUsoArmas from '../../components/GraficoUsoArmas';
+import HOST from '../../services/host';
 
 export default function Home() {
 
     const [dados, setDados] = useState({})
 
-    useEffect(() => {
-        console.log(dados)
-        if (Object.keys(dados).length > 0){
-            setDataDashboard([
-                {item: 'Armas Disponiveis', valor: dados.quantidadeArmasDisponiveis},
-                {item: 'Armas em Uso', valor: dados.armasAcauteladas},
-                {item: 'Armas Baixadas', valor:(dados.quantidadeArmas - dados.quantidadeArmasDisponiveis - dados.armasAcauteladas)}
-            ])
-        }
-
-    }, [dados])
-
-    const [dataDashboard, setDataDashboard] = useState([
-    ]);
-
-    const donutChartData = {
-        options: {
-            labels: dataDashboard.map((element) => element.item),
-        },
-        series: dataDashboard.map((element) => element.valor),
-    };
 
     async function carregarInformacoes() {
 
@@ -59,7 +39,7 @@ export default function Home() {
         <>
             <EscopoAdmin titulo="HOME">
 
-                
+
 
 
                 <section
@@ -67,17 +47,15 @@ export default function Home() {
                 >
 
                     {/* Implementando teste */}
-                <div className="flex items-center flex-col py-8 w-full max-lg:hidden">
-                    
-                    <h3 className='text-3xl'> Informativo de armas</h3>
+                    {
 
-                    <ReactApexChart
-                        options={donutChartData.options}
-                        series={donutChartData.series}
-                        type="donut"
-                        width="700"
-                    />
-                </div>
+                        Object.keys(dados).length > 0 &&
+
+                        <GraficoUsoArmas dados={dados} />
+
+                    }
+
+                    <GraficoArmasPorParametros />
 
 
                     {

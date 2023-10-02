@@ -158,6 +158,10 @@ export default function CadastrarRegistro() {
                                     return <></>
                                 }
 
+                                if (arma.emUso === true) {
+                                    return <></>
+                                }
+
                                 return (
                                     <option value={arma.id}>{arma.numeroSerie} | {arma.modelo} | {arma.estadoConservacao}</option>
                                 )

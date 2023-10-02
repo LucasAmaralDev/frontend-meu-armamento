@@ -33,6 +33,7 @@ export default function Militares() {
         if (response.ok) {
             setMilitares(dados)
             setMilitaresFiltrados(dados)
+            console.log(dados)
         }
 
         else {
@@ -78,7 +79,7 @@ export default function Militares() {
                 return
             }
 
-            if (filtro.batalhao && !militar.batalhao.includes(filtro.batalhao.toUpperCase())) {
+            if (filtro.batalhao && !militar.batalhaoMilitar.nome.includes(filtro.batalhao.toUpperCase())) {
                 return
             }
 
@@ -209,7 +210,7 @@ export default function Militares() {
                                                     <tr key={militar.id}>
                                                         <td className='py-2'>{militar.registroMilitar}</td>
                                                         <td className='py-2'>{militar.nome}</td>
-                                                        <td className='py-2 max-lg:hidden'>{militar.batalhao}</td>
+                                                        <td className='py-2 max-lg:hidden'>{militar.batalhaoMilitar.nome}</td>
                                                         <td className='py-2'>
                                                             <BotaoAcoesMilitares militar={militar} atualizarDados={carregarMilitares} />
                                                         </td>
