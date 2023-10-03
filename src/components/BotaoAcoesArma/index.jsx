@@ -21,7 +21,7 @@ export default function BotaoAcoes(props) {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
         setOpen(false);
       }
-    }, 100)
+    }, 250)
   };
 
   useEffect(() => {
@@ -79,9 +79,6 @@ export default function BotaoAcoes(props) {
         titulo: 'Sucesso',
         mensagem: 'Arma atualizada com sucesso'
       })
-      setTimeout(() => {
-        props.atualizarDados()
-      }, 2000)
       setModal(true)
     }
 
@@ -115,9 +112,6 @@ export default function BotaoAcoes(props) {
         mensagem: 'Arma excluida com sucesso',
       })
       setModal(true)
-      setTimeout(() => {
-        props.atualizarDados()
-      }, 2000)
     }
       
       else {
@@ -134,7 +128,7 @@ export default function BotaoAcoes(props) {
   return (
     <>
 
-      <ModalResposta modal={modal} setModal={setModal} titulo={dadosModal.titulo} mensagem={dadosModal.mensagem}  />
+      <ModalResposta modal={modal} setModal={setModal} titulo={dadosModal.titulo} mensagem={dadosModal.mensagem} action={props.atualizarDados} />
 
       {/* MODAL DE VER AS INFORMAÇÔES DA ARMA */}
 
@@ -315,10 +309,13 @@ export default function BotaoAcoes(props) {
 
         openModalEditar &&
 
-        <div className='fixed top-0 left-0 w-full h-screen bg-black bg-opacity-50 flex justify-center items-center z-50'>
+        <div className='fixed top-0 left-0 w-full h-screen max-h-screen max-w-full bg-black bg-opacity-50 flex justify-center items-center z-50 py-10'>
 
           <section
-            className='w-96 min-h-96 py-6 overflow-x-auto bg-white rounded-md shadow-md flex flex-col justify-around items-center gap-4 overflow-auto'
+            style={{
+              maxHeight: '90vh'
+            }}
+            className='w-96 min-h-96 my-3 py-6 overflow-x-auto bg-white rounded-md shadow-md flex flex-col justify-between items-center gap-4 overflow-hidden'
           >
             <header>
               <h1 className='text-3xl'
@@ -326,7 +323,7 @@ export default function BotaoAcoes(props) {
             </header>
 
             <main
-              className='w-full h-full flex flex-col justify-center items-center gap-4'
+              className='w-full h-5/6 overflow-y-auto flex flex-col justify-center items-center gap-4'
             >
 
               <div
@@ -434,7 +431,7 @@ export default function BotaoAcoes(props) {
                   onChange={(e) => setArmaDados({ ...armaDados, estadoConservacao: e.target.value })}
                 >
                   <option value="NOVO">Novo</option>
-                  <option value="EXELENTE">Excelente</option>
+                  <option value="EXCELENTE">Excelente</option>
                   <option value="BOM">Bom</option>
                   <option value="REGULAR">Regular</option>
                   <option value="BAIXADA">Baixada</option>

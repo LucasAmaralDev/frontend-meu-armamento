@@ -30,7 +30,7 @@ export default function BotaoAcoesMilitares(props) {
           if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
             setOpen(false);
           }
-        }, 100)
+        }, 250)
       };
     useEffect(() => {
         // Adicionar um event listener para cliques no documento inteiro

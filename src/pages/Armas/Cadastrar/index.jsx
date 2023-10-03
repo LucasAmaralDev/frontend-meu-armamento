@@ -41,7 +41,34 @@ export default function CadastrarArma() {
             anoFabricacao: parseInt(data.anoFabricacao)
         }
 
-        console.log(tratamento, data)
+        if (data.capacidadeCarregador < 1) {
+            setDataModal({
+                titulo: 'Erro',
+                mensagem: 'A capacidade do carregador deve ser maior que 0'
+            })
+            setModal(true)
+            return
+        }
+
+        if (data.capacidadeCarregador > 100) {
+            setDataModal({
+                titulo: 'Erro',
+                mensagem: 'A capacidade do carregador deve ser menor que 100'
+            })
+            setModal(true)
+            return
+        }
+
+        if (data.anoFabricacao < 1990) {
+            setDataModal({
+                titulo: 'Erro',
+                mensagem: 'O ano de fabricação deve ser maior que 1990'
+            })
+            setModal(true)
+            return
+        }
+
+        
 
         const response = await fetch(HOST + 'arma/add', {
             method: 'POST',

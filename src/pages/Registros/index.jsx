@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import EscopoAdmin from '../../components/EscopoAdmin'
 import HOST from '../../services/host'
 import BotaoAcoesRegistro from '../../components/BotaoAcoesRegistro'
+import { useNavigate } from 'react-router-dom'
 
 export default function Registros() {
 
@@ -9,6 +10,7 @@ export default function Registros() {
         itens_por_pagina: 8,
     }
 
+    const navigate = useNavigate()
     const [registros, setRegistros] = useState([])
     const [pagina, setPagina] = useState(1)
     const [registrosFiltrados, setRegistrosFiltrados] = useState([])
@@ -106,13 +108,13 @@ export default function Registros() {
                             <div
                                 className='flex flex-col justify-around items-center w-1/5 h-full max-lg:w-full'
                             >
-                                <label htmlFor='registroMilitar' className='text-2xl'>Registro Militar</label>
+                                <label htmlFor='registroMilitar' className='text-lg'>Registro Militar</label>
 
                                 <input
                                     type='text'
                                     id='registroMilitar'
                                     placeholder='Insira o Registro Militar'
-                                    className='w-full px-2 py-1 rounded-md border-2 text-center border-gray-400 focus:border-blue-500 focus:outline-none text-xl'
+                                    className='w-full px-2 py-1 rounded-md border-2 text-center border-gray-400 focus:border-blue-500 focus:outline-none text-base'
                                     value={filtro.registroMilitar}
                                     onChange={(e) => {
                                         setFiltro({
@@ -125,13 +127,13 @@ export default function Registros() {
 
                             <div
                                 className='flex flex-col justify-around items-center w-1/5 h-full max-lg:hidden'>
-                                <label htmlFor='numeroSerie' className='text-2xl'>Numero de Serie</label>
+                                <label htmlFor='numeroSerie' className='text-lg'>Numero de Serie</label>
 
                                 <input
                                     type='text'
                                     id='numeroSerie'
                                     placeholder='Insira o Nome'
-                                    className='w-full px-2 py-1 rounded-md border-2 text-center border-gray-400 focus:border-blue-500 focus:outline-none text-xl'
+                                    className='w-full px-2 py-1 rounded-md border-2 text-center border-gray-400 focus:border-blue-500 focus:outline-none text-base'
                                     value={filtro.numeroSerie}
                                     onChange={(e) => {
                                         setFiltro({
@@ -144,11 +146,11 @@ export default function Registros() {
 
                             <div
                                 className='flex flex-col justify-around items-center w-1/5 h-full max-lg:w-full'>
-                                <label htmlFor='dataDevolucao' className='text-2xl'>Devolução</label>
+                                <label htmlFor='dataDevolucao' className='text-lg'>Devolução</label>
 
                                 <select
                                     id='dataDevolucao'
-                                    className='w-full px-2 py-1 rounded-md border-2 text-center border-gray-400 focus:border-blue-500 focus:outline-none text-xl'
+                                    className='w-full px-2 py-1 rounded-md border-2 text-center border-gray-400 focus:border-blue-500 focus:outline-none text-base'
                                     value={filtro.dataDevolucao}
                                     onChange={(e) => {
                                         setFiltro({
@@ -176,13 +178,13 @@ export default function Registros() {
                     {/* PARTE DA TABELA */}
                     <section className='w-full flex justify-center items-center flex-col p-2 gap-2 mb-1 max-lg:mb-24 max-lg:px-0 max-lg:flex-col-reverse'>
                         <div className='max-lg:hidden'>
-                            <h1 className='text-4xl max-lg:text-2xl'>REGISTROS</h1>
+                            <h1 className='text-4xl max-lg:text-lg'>REGISTROS</h1>
                         </div>
                         <div>
                             <button
-                                className='w-80 h-16 rounded-md bg-green-500 text-white text-2xl focus:outline-none hover:bg-green-600 my-2'
+                                className='w-60 h-12 rounded-md bg-green-500 text-white text-lg focus:outline-none hover:bg-green-600 my-2'
                                 onClick={() => {
-                                    window.location.href = '/registros/cadastrar'
+                                    navigate('/registros/cadastrar')
                                 }}
                             >
                                 Lançar Novo Registro

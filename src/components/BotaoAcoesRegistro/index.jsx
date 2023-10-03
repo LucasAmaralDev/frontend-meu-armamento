@@ -31,7 +31,7 @@ export default function BotaoAcoesRegistro(props) {
           if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
             setOpen(false);
           }
-        }, 100)
+        }, 250)
       };
 
     useEffect(() => {
@@ -63,7 +63,6 @@ export default function BotaoAcoesRegistro(props) {
         const data = await response.json()
 
         if (response.ok) {
-            props.atualizarDados()
             setDadosModal({
                 titulo: 'Sucesso',
                 mensagem: 'Registro de Devolução de Arma foi feito com sucesso'
@@ -100,9 +99,6 @@ export default function BotaoAcoesRegistro(props) {
                 mensagem: 'Registro deletado com sucesso',
             })
             setModal(true)
-            setTimeout(() => {
-                props.atualizarDados()
-            }, 2000)
         }
 
         else {
@@ -119,7 +115,7 @@ export default function BotaoAcoesRegistro(props) {
     return (
         <>
 
-            <ModalResposta modal={modal} setModal={setModal} titulo={dadosModal.titulo} mensagem={dadosModal.mensagem} />
+            <ModalResposta modal={modal} setModal={setModal} titulo={dadosModal.titulo} mensagem={dadosModal.mensagem} action={props.atualizarDados} />
 
             {/* MODAL DE VER AS INFORMAÇÔES DO Registro */}
 

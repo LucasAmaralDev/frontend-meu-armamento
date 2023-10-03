@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import Header from '../../components/Header/Header'
-import HOST from './../../services/host'
-import ModalResposta from '../../components/ModalResposta'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
+import Header from '../../components/Header/Header'
+import ModalResposta from '../../components/ModalResposta'
+import HOST from './../../services/host'
 
 export default function Login() {
 
@@ -82,7 +82,7 @@ export default function Login() {
 
                             <p>Não possui uma conta?</p>
                             <button className='w-full m-1 p-2 border-2 border-gray-300 rounded-md bg-green-600 text-white font-semibold hover:bg-green-700 active:bg-green-900'>CADASTRAR-SE</button>
-                            
+
                         </Link>
                     </form>
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import EscopoAdmin from '../../components/EscopoAdmin'
 import HOST from '../../services/host'
 import BotaoAcoes from '../../components/BotaoAcoesArma'
+import { useNavigate } from 'react-router-dom'
 
 /**
  * 
@@ -36,6 +37,7 @@ export default function Armas() {
         itens_por_pagina: 8,
     }
 
+    const navigate = useNavigate()
     const [armas, setArmas] = useState([])
     const [pagina, setPagina] = useState(1)
     const [armasfiltradas, setArmasFiltradas] = useState([])
@@ -133,13 +135,13 @@ export default function Armas() {
                             <div
                                 className='flex flex-col justify-around items-center w-1/5 h-full max-lg:w-full'
                             >
-                                <label htmlFor='modelo' className='text-2xl'>Modelo</label>
+                                <label htmlFor='modelo' className='text-lg'>Modelo</label>
 
                                 <input
                                     type='text'
                                     id='modelo'
                                     placeholder='Insira o Modelo'
-                                    className='w-full px-2 py-1 rounded-md border-2 text-center border-gray-400 focus:border-blue-500 focus:outline-none text-xl'
+                                    className='w-full px-2 py-1 rounded-md border-2 text-center border-gray-400 focus:border-blue-500 focus:outline-none text-base'
                                     value={filtro.modelo}
                                     onChange={(e) => {
                                         setFiltro({
@@ -152,13 +154,13 @@ export default function Armas() {
 
                             <div
                                 className='flex flex-col justify-around items-center w-1/5 h-full max-lg:hidden'>
-                                <label htmlFor='fabricante' className='text-2xl'>Fabricante</label>
+                                <label htmlFor='fabricante' className='text-lg'>Fabricante</label>
                                 
                                 <input 
                                 type='text' 
                                 id='fabricante' 
                                 placeholder='Insira o Fabricante' 
-                                className='w-full px-2 py-1 rounded-md border-2 text-center border-gray-400 focus:border-blue-500 focus:outline-none text-xl' 
+                                className='w-full px-2 py-1 rounded-md border-2 text-center border-gray-400 focus:border-blue-500 focus:outline-none text-base' 
                                 value={filtro.fabricante}
                                 onChange={(e) => {
                                     setFiltro({
@@ -171,13 +173,13 @@ export default function Armas() {
 
                             <div
                                 className='flex flex-col justify-around items-center w-1/5 h-full max-lg:hidden'>
-                                <label htmlFor='anoDeFabricacao' className='text-2xl'>Ano de Fabricação</label>
+                                <label htmlFor='anoDeFabricacao' className='text-lg'>Ano de Fabricação</label>
                                 
                                 <input 
                                 type='number' 
                                 id='anoDeFabricacao' 
                                 placeholder='Insira o Ano de Fabricação' 
-                                className='w-full px-2 py-1 text-center rounded-md border-2 border-gray-400 focus:border-blue-500 focus:outline-none text-xl'
+                                className='w-full px-2 py-1 text-center rounded-md border-2 border-gray-400 focus:border-blue-500 focus:outline-none text-base'
                                 value={filtro.anoDeFabricacao}
                                 onChange={(e) => {
                                     setFiltro({
@@ -191,13 +193,12 @@ export default function Armas() {
 
                             <div
                                 className='flex flex-col justify-around items-center w-1/5 h-full max-lg:w-full'>
-                                <label htmlFor='estadoConservacao' className='text-2xl'>Estado de Conservação</label>
+                                <label htmlFor='estadoConservacao' className='text-lg'>Estado de Conservação</label>
                                 
                                 <select 
                                 name="estadoConservacao" 
                                 id="estadoConservacao" 
-                                className='w-full px-2 py-1 rounded-md border-2 text-center border-gray-400 focus:border-blue-500 focus:outline-none text-xl
-                                '
+                                className='w-full px-2 py-1 rounded-md border-2 text-center border-gray-400 focus:border-blue-500 focus:outline-none text-base'
                                 value={filtro.estadoConservacao}
                                 onChange={(e) => {
                                     setFiltro({
@@ -206,7 +207,7 @@ export default function Armas() {
                                     })
                                 }}
                                 >
-                                    <option value="">Selecione</option>
+                                    <option value="">Todos</option>
                                     <option value="NOVO">Novo</option>
                                     <option value="EXCELENTE">Excelente</option>
                                     <option value="BOM">Bom</option>
@@ -227,13 +228,13 @@ export default function Armas() {
                     {/* PARTE DA TABELA */}
                     <section className='w-full flex justify-center items-center flex-col p-2 gap-2 mb-1 max-lg:mb-24 max-lg:px-0 max-lg:flex-col-reverse'>
                         <div className='max-lg:hidden'>
-                            <h1 className='text-4xl max-lg:text-2xl'>ARMAS</h1>
+                            <h1 className='text-4xl max-lg:text-lg'>ARMAS</h1>
                         </div>
                         <div>
                             <button
-                                className='w-80 h-16 rounded-md bg-green-500 text-white text-2xl focus:outline-none hover:bg-green-600 my-2'
+                                className='w-60 h-12 rounded-md bg-green-500 text-white text-lg focus:outline-none hover:bg-green-600 my-2'
                                 onClick={() => {
-                                    window.location.href = '/armas/cadastrar'
+                                    navigate('/armas/cadastrar')
                                 }}
                             >
                                 Cadastrar Nova Arma
@@ -242,7 +243,7 @@ export default function Armas() {
 
                         <div className='w-full flex justify-center items-center flex-col gap-2 max-lg:gap-6 max-lg:items-start'>
                             <table className='w-full rounded-md shadow-md'>
-                                <thead className='bg-green-500 text-white text-2xl'>
+                                <thead className='bg-green-500 text-white text-xl'>
                                     <tr>
                                         <th className='p-2'>Numero de Série</th>
                                         <th className='p-2'>Modelo</th>
@@ -253,7 +254,7 @@ export default function Armas() {
                                         <th className='p-2'>Ações</th>
                                     </tr>
                                 </thead>
-                                <tbody className='bg-gray-100 text-center text-xl'>
+                                <tbody className='bg-gray-100 text-center text-lg'>
                                     {
                                         armasfiltradas.length > 0 ? armasfiltradas.map((arma, index) => {
                                             if(index >= (pagina - 1) * infoPaginacao.itens_por_pagina && index < pagina * infoPaginacao.itens_por_pagina){

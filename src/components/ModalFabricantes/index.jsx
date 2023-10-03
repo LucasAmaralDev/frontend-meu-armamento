@@ -64,7 +64,7 @@ export default function ModalFabricantes(props) {
   return (
     <>
 
-      <span className=' w-2/5 bg-green-600 text-white text-center flex justify-center p-1 rounded-md cursor-pointer' onClick={() => { setOpen(true) }}>Gerir Fabricantes</span>
+      <span className=' w-2/5 bg-green-600 text-white text-center flex justify-center px-1 py-2 mt-1 rounded-md cursor-pointer' onClick={() => { setOpen(true) }}>Adicionar Fabricante</span>
 
 
       {
@@ -72,19 +72,21 @@ export default function ModalFabricantes(props) {
         <>
           <div className='fixed top-0 left-0 bg-black bg-opacity-30 w-screen h-screen'>
 
-            <section className='w-4/5 h-4/5 bg-white rounded-md absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center gap-4'>
+            <section className='w-5/12 h-4/5 bg-white rounded-md absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col justify-between items-center gap-4 py-4'>
 
-              <header className='w-full h-1/6 flex justify-center items-center'>
-                <h1 className='text-2xl'>Fabricantes</h1>
+              <header className='w-full flex justify-center items-center'>
+                <h1 className='text-4xl'>Fabricantes</h1>
               </header>
 
-              <main className='w-full h-4/6 flex flex-col items-center gap-4 overflow-auto'>
+              <main className='w-full h-full flex flex-col items-center gap-4 overflow-auto'>
 
                 <div className='w-full h-1/6 flex justify-center items-center gap-4'>
-                  <input type="text" placeholder='Nome do Fabricante' className='w-2/5 h-1/2 border-2 border-stone-700 rounded-md px-2' value={nome} onChange={(e) => setNome(e.target.value)} />
+                  <input type="text" placeholder='Nome do Fabricante' className='w-3/5 h-1/2 border-2 border-stone-700 rounded-md px-2' value={nome} onChange={(e) => setNome(e.target.value)} />
                   <div className='w-1/5 h-1/2 bg-green-600 text-white rounded-md flex items-center justify-center cursor-pointer' onClick={adicionarFabricante}>Adicionar</div>
                 </div>
-                <div className='w-full h-5/6 flex flex-col items-center gap-2 overflow-y-scroll'>
+                
+                
+                <div className='w-full h-full flex flex-col items-center gap-2 overflow-y-auto'>
                   {
 
                     props.fabricantes.map((fabricante, index) => {
@@ -107,8 +109,8 @@ export default function ModalFabricantes(props) {
 
               </main>
 
-              <footer className='w-full h-1/6 flex justify-center items-center'>
-                <button className='w-1/5 h-1/2 bg-green-600 text-white rounded-md' onClick={() => { setOpen(false) }}>Fechar</button>
+              <footer className='w-full flex justify-center items-center'>
+                <button className='w-1/5 h-12 bg-green-600 text-white rounded-md' onClick={() => { setOpen(false) }}>Fechar</button>
               </footer>
 
             </section>

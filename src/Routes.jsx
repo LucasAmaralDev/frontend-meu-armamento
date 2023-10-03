@@ -15,6 +15,7 @@ import AlterarSenha from './pages/AlterarSenha'
 import CadastrarArma from './pages/Armas/Cadastrar'
 import CadastrarMilitar from './pages/Militares/Cadastrar'
 import CadastrarRegistro from './pages/Registros/Cadastrar'
+import LoginNew from './pages/LoginNew'
 
 function VerificarLogado({ children }) {
   const token = window.localStorage.getItem('token')
@@ -32,7 +33,7 @@ export function Navigations() {
     <BrowserRouter>
       <Routes>
 
-        <Route path="/" element={<App />} />
+        <Route path="/" element={<LoginNew />} />
 
         <Route path="/login" element={<Login />} />
 

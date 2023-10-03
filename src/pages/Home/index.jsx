@@ -58,7 +58,7 @@ export default function Home() {
                     <GraficoArmasPorParametros />
 
 
-                    {
+                    {/* {
                         Object.keys(dados).length > 0 &&
                         <>
 
@@ -74,7 +74,7 @@ export default function Home() {
 
                             <CardDashboard titulo="Total de Registros de Acautelamento" valor={dados.totalDeAcautelamentos} />
                         </>
-                    }
+                    } */}
 
 
                 </section>

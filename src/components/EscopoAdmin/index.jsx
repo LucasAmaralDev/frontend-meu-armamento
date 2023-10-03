@@ -19,7 +19,7 @@ export default function EscopoAdmin({ children, titulo }) {
             </div>
 
             <div className='w-full h-full flex overflow-clip'>
-                <section className={'flex flex-col h-full bg-stone-900 justify-around py-5 items-center gap-4 text-white w-44 max-lg:hidden'}
+                <section className={'flex flex-col h-full bg-stone-900 justify-around py-5 items-center gap-4 text-white w-48 max-lg:hidden'}
                 >
 
                     <Link to="/home"
