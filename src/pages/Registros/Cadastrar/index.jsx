@@ -5,6 +5,7 @@ import EscopoAdmin from '../../../components/EscopoAdmin'
 import HOST from '../../../services/host'
 import { cssButtonConfirm, cssSelect } from '../../../services/utils'
 import { useNavigate } from 'react-router-dom'
+import { Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 
 export default function CadastrarRegistro() {
 
@@ -96,56 +97,63 @@ export default function CadastrarRegistro() {
     const { register, handleSubmit } = useForm()
 
     return (
-        <EscopoAdmin titulo="LANÇAR REGISTRO DE ACAUTELAMENTO">
+        <EscopoAdmin titulo="NOVO REGISTRO">
 
             <div className='w-full h-full flex flex-col justify-center items-center py-4 px-2 gap-6 overflow-x-scroll max-lg:overflow-x-auto max-lg:h-auto'>
-                <div className='max-lg:hidden'>
-                    <h1 className='text-2xl lg:text-6xl'>LANÇAR REGISTRO DE ACAUTELAMENTO</h1>
-                </div>
+
 
                 <form
                     onSubmit={handleSubmit(formularioNovoAcautelamento)}
                     className='w-full h-full flex flex-col justify-center items-center gap-12'>
 
-                    <select
-                        {...register('militar_id')}
-                        className={cssSelect} >
-                        <option value=''>Selecione o militar</option>
-                        {
-                            militares.map((militar) => {
-                                return (
-                                    <option value={militar.id}>{militar.registroMilitar} | {militar.nome}</option>
-                                )
-                            })
-                        }
-                    </select>
+                    <div className='max-lg:hidden'>
+                        <h1 className='text-lg lg:text-2xl'>NOVO REGISTRO DE RETIRADA</h1>
+                    </div>
 
 
-                    <select
-                        {...register('arma_id')}
-                        className={cssSelect}>
-                        <option value=''>Selecione a arma</option>
-                        {
-                            armas.map((arma) => {
+                    <div className='w-2/5 relative'>
+                        <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label">Selecione o Militar</InputLabel>
+                            <Select label="Selecione o Militar"  {...register('militar_id')} >
+                                {
+                                    militares.map((militar) => {
+                                        return (
+                                            <MenuItem value={militar.id}>{militar.registroMilitar} | {militar.nome}</MenuItem>
+                                        )
+                                    })
+                                }
+                            </Select>
+                        </FormControl>
+                    </div>
 
-                                if (arma.estadoConservacao === 'BAIXADA') {
-                                    return <></>
+                    <div className='w-2/5 relative'>
+                        <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label">Selecione a Arma</InputLabel>
+                            <Select label="Selecione a Arma"  {...register('arma_id')} >
+
+                                {
+                                    armas.map((arma) => {
+
+                                        if (arma.estadoConservacao === 'BAIXADA') {
+                                            return <></>
+                                        }
+
+                                        if (arma.emUso === true) {
+                                            return <></>
+                                        }
+
+                                        return (
+                                            <MenuItem value={arma.id}>{arma.numeroSerie} | {arma.modelo} | {arma.estadoConservacao}</MenuItem>
+                                        )
+                                    })
                                 }
 
-                                if (arma.emUso === true) {
-                                    return <></>
-                                }
+                            </Select>
+                        </FormControl>
+                    </div>
 
-                                return (
-                                    <option value={arma.id}>{arma.numeroSerie} | {arma.modelo} | {arma.estadoConservacao}</option>
-                                )
-                            })
-                        }
-                    </select>
+                    <Button variant="contained" className='w-2/5' color='success' type='submit' >Cadastrar</Button>
 
-                    <button {
-                        ...register('cadastrar')
-                    } type='submit' className={cssButtonConfirm}>Cadastrar</button>
                 </form>
             </div>
         </EscopoAdmin>

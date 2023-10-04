@@ -5,6 +5,9 @@ import React, { useContext, useEffect, useState } from 'react';
 import { ToasterContext } from '../../Context/ToasterContext';
 import HOST from '../../services/host';
 import { FormControl, InputLabel, Select, TextField } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import ManageSearchIcon from '@mui/icons-material/ManageSearch';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function BotaoAcoesMilitares(props) {
 
@@ -388,16 +391,28 @@ export default function BotaoAcoesMilitares(props) {
                             onClick={() => {
                                 handleClose()
                                 setOpenModalVisualizar(!openModalVisualizar)
-                            }}>Ver Mais</MenuItem>
+                            }}>
+                            <ManageSearchIcon>
+                            </ManageSearchIcon>
+                            Ver Mais
+                        </MenuItem>
 
                         <MenuItem onClick={() => {
                             handleClose()
                             setOpenModalEditar(!openModalEditar)
-                        }}>Editar</MenuItem>
+                        }}>
+                            <EditIcon>
+                            </EditIcon>
+                            Editar
+                        </MenuItem>
                         <MenuItem onClick={() => {
                             handleClose()
                             setOpenModalExcluir(!openModalExcluir)
-                        }}>Excluir</MenuItem>
+                        }}>
+                            <DeleteIcon>
+                            </DeleteIcon>
+                            Excluir
+                        </MenuItem>
                     </Menu>
                 </div>
 

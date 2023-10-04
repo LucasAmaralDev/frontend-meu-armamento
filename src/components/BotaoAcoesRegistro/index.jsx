@@ -4,6 +4,9 @@ import HOST from '../../services/host'
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import ManageSearchIcon from '@mui/icons-material/ManageSearch';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 export default function BotaoAcoesRegistro(props) {
 
@@ -363,7 +366,11 @@ export default function BotaoAcoesRegistro(props) {
                             onClick={() => {
                                 handleClose()
                                 setOpenModalVisualizar(!openModalVisualizar)
-                            }}>Ver Mais</MenuItem>
+                            }}>
+                            <ManageSearchIcon>
+                            </ManageSearchIcon>
+                            Ver Mais
+                        </MenuItem>
 
                         {
                             registroDados.dataDevolucao === null &&
@@ -371,14 +378,20 @@ export default function BotaoAcoesRegistro(props) {
                             <MenuItem onClick={() => {
                                 handleClose()
                                 setOpenModalEditar(!openModalEditar)
-                            }}>Registrar Devolução</MenuItem>
+                            }}>
+                                <ArrowDropDownIcon />
+                                Registrar Devolução</MenuItem>
                         }
 
 
                         <MenuItem onClick={() => {
                             handleClose()
                             setOpenModalExcluir(!openModalExcluir)
-                        }}>Excluir</MenuItem>
+                        }}>
+                            <DeleteIcon>
+                            </DeleteIcon>
+                            Excluir
+                        </MenuItem>
                     </Menu>
                 </div>
 
