@@ -104,12 +104,11 @@ export default function CadastrarArma() {
     return (
         <EscopoAdmin titulo="CADASTRAR ARMA">
 
-            <div className='w-full h-full max-h-full flex flex-col px-2 gap-6 overflow-auto max-lg:h-auto'>
+            <div className='w-full h-full flex flex- px-2 gap-6 overflow-auto max-lg:h-auto'>
 
-                <p className='opacity-0'>a</p>
                 <form
                     onSubmit={handleSubmit(formularioNovaArma)}
-                    className='w-full h-full flex flex-col justify-center items-center gap-4 py-8 mb-4'>
+                    className='w-full h-full flex flex-col items-center gap-2 py-4'>
 
                     <TextField id="outlined-basic" label="Numero de Serie" variant="outlined" className='w-2/5 h-16' {...register('numeroSerie')} />
 
@@ -172,7 +171,7 @@ export default function CadastrarArma() {
 
                     <Button variant="contained" className='w-2/5' color='success' type='submit' >Cadastrar</Button>
 
-                    <p className='opacity-0'>a</p>
+                    <p className='text-xs opacity-0'>a</p>
                 </form>
             </div>
         </EscopoAdmin>
