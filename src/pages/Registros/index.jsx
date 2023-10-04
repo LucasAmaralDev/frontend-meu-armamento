@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom'
 
 export default function Registros() {
 
+    
+
     const infoPaginacao = {
         itens_por_pagina: 8,
     }

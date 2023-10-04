@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import HOST from '../../services/host'
 import ModalResposta from '../ModalResposta'
+import { Button, TextField } from '@mui/material'
+import { ToasterContext } from '../../Context/ToasterContext'
 
 export default function FormLogin(props) {
+    const { toast } = useContext(ToasterContext)
 
     const setPagina = props.setPagina
     const navigate = useNavigate()
@@ -18,22 +21,20 @@ export default function FormLogin(props) {
     const { register, handleSubmit } = useForm()
 
     async function fazerLogin(data) {
+
+        const toastLogin = toast.loading('Efetuando Login...');
+
         if (data.registroMilitar.length < 1) {
-            setDados({
-                titulo: 'Erro',
-                mensagem: 'O registro militar deve ser preenchido'
-            })
-            setOpen(true)
+            toast.error('O registro militar deve ser preenchido', {
+                id: toastLogin,
+            });
             return
         }
 
         if (data.senha.length < 1) {
-            setDados({
-                titulo: 'Erro',
-                mensagem: 'A senha deve ser preenchida'
-            })
-
-            setOpen(true)
+            toast.error('A senha deve ser preenchida', {
+                id: toastLogin,
+            });
             return
         }
 
@@ -48,16 +49,19 @@ export default function FormLogin(props) {
         const dataResponse = await response.json()
 
         if (!response.ok) {
-            setDados({
-                titulo: 'Erro',
-                mensagem: dataResponse.error
-            })
-            setOpen(true)
+            toast.error(dataResponse.error, {
+                id: toastLogin,
+            });
             return
         }
 
         localStorage.setItem('token', dataResponse.token)
+        toast.success('Login Efetuado com sucesso', {
+            id: toastLogin,
+        });
+
         navigate('/home')
+
     }
 
     return (
@@ -69,11 +73,11 @@ export default function FormLogin(props) {
             >
                 <h1 className='text-4xl font-bold text-gray-900'>Login</h1>
 
-                <input type="text" {...register('registroMilitar')} placeholder='Registro Militar' className='w-full h-12 border border-gray-300 rounded-lg px-4' />
+                <TextField id="outlined-basic" label="Registro Militar" variant="outlined" {...register('registroMilitar')} className='w-full' />
 
-                <input type="password" {...register('senha')} placeholder='Senha' className='w-full h-12 border border-gray-300 rounded-lg px-4' />
+                <TextField id="outlined-basic" label="Senha" type='password' variant="outlined" {...register('senha')} className='w-full' />
 
-                <button className='w-full h-12 bg-gray-900 text-white rounded-lg'>Entrar</button>
+                <Button variant="contained" className='w-full h-12 bg-gray-900 text-white rounded-lg' color='success' type='submit' >Entrar</Button>
 
                 <div className='text-gray-900 cursor-pointer' onClick={() => {
                     console.log('click')

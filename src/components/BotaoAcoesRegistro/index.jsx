@@ -1,12 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import { ToasterContext } from '../../Context/ToasterContext'
 import HOST from '../../services/host'
-import ModalResposta from '../ModalResposta'
 
 export default function BotaoAcoesRegistro(props) {
 
     const [open, setOpen] = useState(false)
-    const [modal, setModal] = useState(false)
-    const [dadosModal, setDadosModal] = useState({})
+    const { toast } = useContext(ToasterContext)
 
     const [openModalVisualizar, setOpenModalVisualizar] = useState(false)
     const [openModalEditar, setOpenModalEditar] = useState(false)
@@ -49,6 +48,8 @@ export default function BotaoAcoesRegistro(props) {
 
     async function atualizarRegistro() {
 
+        const toastDevolucao = toast.loading('Registrando devolução...')
+
         const token = localStorage.getItem('token')
 
         const response = await fetch(HOST + 'acautelamento/devolucao/' + props.registro.id, {
@@ -63,25 +64,23 @@ export default function BotaoAcoesRegistro(props) {
         const data = await response.json()
 
         if (response.ok) {
-            setDadosModal({
-                titulo: 'Sucesso',
-                mensagem: 'Registro de Devolução de Arma foi feito com sucesso'
+            toast.success("Devolução registrada",{
+                id: toastDevolucao
             })
-            setModal(true)
+            props.atualizarDados()
         }
 
         else {
-            setDadosModal({
-                titulo: 'Erro',
-                mensagem: data.error
+            toast.error(data.error, {
+                id: toastDevolucao
             })
-            setModal(true)
         }
 
     }
 
 
     async function excluirRegistro() {
+        const toastExcluir = toast.loading('Excluindo registro...')
         const response = await fetch(HOST + 'acautelamento/delete/' + props.registro.id, {
             method: 'DELETE',
             headers: {
@@ -94,19 +93,16 @@ export default function BotaoAcoesRegistro(props) {
         const data = await response.json()
 
         if (response.ok) {
-            setDadosModal({
-                titulo: 'Sucesso',
-                mensagem: 'Registro deletado com sucesso',
+            toast.success("Registro excluido",{
+                id: toastExcluir
             })
-            setModal(true)
+            props.atualizarDados()
         }
 
         else {
-            setDadosModal({
-                titulo: 'Erro ao deletar militar',
-                mensagem: data.error
+            toast.error(data.error, {
+                id: toastExcluir
             })
-            setModal(true)
         }
 
     }
@@ -114,8 +110,6 @@ export default function BotaoAcoesRegistro(props) {
 
     return (
         <>
-
-            <ModalResposta modal={modal} setModal={setModal} titulo={dadosModal.titulo} mensagem={dadosModal.mensagem} action={props.atualizarDados} />
 
             {/* MODAL DE VER AS INFORMAÇÔES DO Registro */}
 

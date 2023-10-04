@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import EscopoAdmin from '../../../components/EscopoAdmin'
+import React, { useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import HOST from '../../../services/host'
-import ModalResposta from '../../../components/ModalResposta'
-import { cssButtonConfirm, cssInput } from '../../../services/utils'
+import { useNavigate } from 'react-router-dom'
+import { ToasterContext } from '../../../Context/ToasterContext'
+import EscopoAdmin from '../../../components/EscopoAdmin'
 import ModalBatalhoes from '../../../components/ModaBatalhaoes'
+import HOST from '../../../services/host'
+import { cssButtonConfirm, cssInput } from '../../../services/utils'
 
 export default function CadastrarMilitar() {
 
-    const [modal, setModal] = useState(false)
-    const [dataModal, setDataModal] = useState({})
+    const { toast } = useContext(ToasterContext)
+    const navigate = useNavigate()
     const [batalhoes, setBatalhoes] = useState([])
 
     async function getBatalhoes() {
@@ -24,22 +25,19 @@ export default function CadastrarMilitar() {
         if (response.ok) {
             setBatalhoes(dataResponse)
         }
-        console.log(dataResponse)
     }
 
     useEffect(() => {
         getBatalhoes()
     }, [])
 
-    function retornarParaPaginaAnterior() {
-        window.location.href = '/militares'
-    }
+
 
     async function formularioNovoMilitar(data) {
         const tratamento = {
             ...data
         }
-
+        const toastNovoMilitar = toast.loading('Cadastrando militar...')
         const response = await fetch(HOST + 'militares/add', {
             method: 'POST',
             headers: {
@@ -54,20 +52,16 @@ export default function CadastrarMilitar() {
         const dataResponse = await response.json()
 
         if (response.ok) {
-            setDataModal({
-                titulo: 'Sucesso',
-                mensagem: dataResponse.nome + " cadastrado com sucesso",
-                action: retornarParaPaginaAnterior
+            toast.success(dataResponse.nome + " cadastrado com sucesso",{
+                id: toastNovoMilitar
             })
-            setModal(true)
+            navigate('/militares')
         }
 
         else {
-            setDataModal({
-                titulo: 'Erro',
-                mensagem: dataResponse.error
+            toast.error(dataResponse.error, {
+                id: toastNovoMilitar
             })
-            setModal(true)
         }
 
 
@@ -78,7 +72,6 @@ export default function CadastrarMilitar() {
     return (
         <EscopoAdmin titulo="CADASTRAR MILITAR">
 
-            <ModalResposta modal={modal} setModal={setModal} titulo={dataModal.titulo} mensagem={dataModal.mensagem} action={dataModal.action} />
 
             <div className='w-full h-full flex flex-col justify-center items-center py-4 px-2 gap-6 overflow-x-scroll max-lg:overflow-x-auto max-lg:h-auto'>
                 <div className='max-lg:hidden'>

@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import EscopoAdmin from '../../../components/EscopoAdmin'
+import React, { useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { ToasterContext } from '../../../Context/ToasterContext'
+import EscopoAdmin from '../../../components/EscopoAdmin'
 import HOST from '../../../services/host'
-import ModalResposta from '../../../components/ModalResposta'
 import { cssButtonConfirm, cssSelect } from '../../../services/utils'
+import { useNavigate } from 'react-router-dom'
 
 export default function CadastrarRegistro() {
 
-    const [modal, setModal] = useState(false)
-    const [dataModal, setDataModal] = useState({})
+    const { toast } = useContext(ToasterContext)
+    const navigate = useNavigate()
     const [militares, setMilitares] = useState([])
     const [armas, setArmas] = useState([])
 
@@ -24,23 +25,14 @@ export default function CadastrarRegistro() {
         const dataResponse = await response.json()
 
         if (response.ok) {
-
             setMilitares(dataResponse)
-
         }
-
         else {
-            setDataModal({
-                titulo: 'Erro',
-                mensagem: dataResponse.error
-            })
-
-            setModal(true)
+            toast.error(dataResponse.error)
         }
     }
 
     async function buscarArmas() {
-
         const response = await fetch(HOST + 'arma/find', {
             method: 'GET',
             headers: {
@@ -48,21 +40,11 @@ export default function CadastrarRegistro() {
                 'Authorization': 'Bearer ' + localStorage.getItem('token'),
             }
         })
-
         const dataResponse = await response.json()
-
         if (response.ok) {
-            console.log(dataResponse)
             setArmas(dataResponse)
-        }
-
-        else {
-            setDataModal({
-                titulo: 'Erro',
-                mensagem: dataResponse.error
-            })
-
-            setModal(true)
+        } else {
+            toast.error(dataResponse.error)
         }
 
     }
@@ -72,11 +54,9 @@ export default function CadastrarRegistro() {
         buscarArmas()
     }, [])
 
-    function retornarParaPaginaAnterior() {
-        window.location.href = '/registros'
-    }
 
-    async function formularioNovoMilitar(data) {
+    async function formularioNovoAcautelamento(data) {
+        const toastAcautelamento = toast.loading("Registrando retirada...")
         const tratamento = {
             ...data,
             arma_id: parseInt(data.arma_id),
@@ -98,20 +78,16 @@ export default function CadastrarRegistro() {
 
 
         if (response.ok) {
-            setDataModal({
-                titulo: 'Sucesso',
-                mensagem: "Acautelamento realizado com sucesso",
-                action: retornarParaPaginaAnterior
+            toast.success("Retirada registrada", {
+                id: toastAcautelamento
             })
-            setModal(true)
+            navigate('/registros')
         }
 
         else {
-            setDataModal({
-                titulo: 'Erro',
-                mensagem: dataResponse.error
+            toast.error(dataResponse.error, {
+                id: toastAcautelamento
             })
-            setModal(true)
         }
 
 
@@ -122,15 +98,13 @@ export default function CadastrarRegistro() {
     return (
         <EscopoAdmin titulo="LANÇAR REGISTRO DE ACAUTELAMENTO">
 
-            <ModalResposta modal={modal} setModal={setModal} titulo={dataModal.titulo} mensagem={dataModal.mensagem} action={dataModal.action} />
-
             <div className='w-full h-full flex flex-col justify-center items-center py-4 px-2 gap-6 overflow-x-scroll max-lg:overflow-x-auto max-lg:h-auto'>
                 <div className='max-lg:hidden'>
                     <h1 className='text-2xl lg:text-6xl'>LANÇAR REGISTRO DE ACAUTELAMENTO</h1>
                 </div>
 
                 <form
-                    onSubmit={handleSubmit(formularioNovoMilitar)}
+                    onSubmit={handleSubmit(formularioNovoAcautelamento)}
                     className='w-full h-full flex flex-col justify-center items-center gap-12'>
 
                     <select

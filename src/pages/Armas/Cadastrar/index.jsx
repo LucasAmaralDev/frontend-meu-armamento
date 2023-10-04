@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from 'react'
-import EscopoAdmin from '../../../components/EscopoAdmin'
+import React, { useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import HOST from '../../../services/host'
-import ModalResposta from '../../../components/ModalResposta'
-import { cssButtonConfirm, cssInput, cssSelect } from '../../../services/utils'
+import { useNavigate } from 'react-router-dom'
+import { ToasterContext } from '../../../Context/ToasterContext'
+import EscopoAdmin from '../../../components/EscopoAdmin'
 import ModalFabricantes from '../../../components/ModalFabricantes'
+import HOST from '../../../services/host'
+import { cssButtonConfirm, cssInput, cssSelect } from '../../../services/utils'
+import { FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material'
 
 export default function CadastrarArma() {
+    const { toast } = useContext(ToasterContext)
 
-    const [modal, setModal] = useState(false)
-    const [dataModal, setDataModal] = useState({})
+    const navigate = useNavigate()
     const [fabricantes, setFabricantes] = useState([])
 
     async function getFabricantes() {
@@ -35,6 +37,8 @@ export default function CadastrarArma() {
     }
 
     async function formularioNovaArma(data) {
+        console.log(data)
+        const toastArma = toast.loading('Cadastrando arma...');
         const tratamento = {
             ...data,
             capacidadeCarregador: parseInt(data.capacidadeCarregador),
@@ -42,33 +46,27 @@ export default function CadastrarArma() {
         }
 
         if (data.capacidadeCarregador < 1) {
-            setDataModal({
-                titulo: 'Erro',
-                mensagem: 'A capacidade do carregador deve ser maior que 0'
-            })
-            setModal(true)
+            toast.error('A capacidade do carregador deve ser maior que 0', {
+                id: toastArma,
+            });
             return
         }
 
         if (data.capacidadeCarregador > 100) {
-            setDataModal({
-                titulo: 'Erro',
-                mensagem: 'A capacidade do carregador deve ser menor que 100'
-            })
-            setModal(true)
+            toast.error('A capacidade do carregador deve ser menor que 100', {
+                id: toastArma,
+            });
             return
         }
 
         if (data.anoFabricacao < 1990) {
-            setDataModal({
-                titulo: 'Erro',
-                mensagem: 'O ano de fabricação deve ser maior que 1990'
-            })
-            setModal(true)
+            toast.error('O ano de fabricação deve ser maior que 1990', {
+                id: toastArma,
+            });
             return
         }
 
-        
+
 
         const response = await fetch(HOST + 'arma/add', {
             method: 'POST',
@@ -76,8 +74,7 @@ export default function CadastrarArma() {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             },
-            mode: 'cors'
-            ,
+            mode: 'cors',
             body: JSON.stringify(tratamento)
         })
 
@@ -87,20 +84,16 @@ export default function CadastrarArma() {
         console.log(dataResponse)
 
         if (response.ok) {
-            setDataModal({
-                titulo: 'Sucesso',
-                mensagem: dataResponse.message,
-                action: retornarParaPaginaAnterior
-            })
-            setModal(true)
+            toast.success(dataResponse.message, {
+                id: toastArma,
+            });
+            navigate('/armas')
         }
 
         else {
-            setDataModal({
-                titulo: 'Erro',
-                mensagem: dataResponse.error
-            })
-            setModal(true)
+            toast.error(dataResponse.error, {
+                id: toastArma,
+            });
         }
 
 
@@ -111,8 +104,6 @@ export default function CadastrarArma() {
     return (
         <EscopoAdmin titulo="CADASTRAR ARMA">
 
-            <ModalResposta modal={modal} setModal={setModal} titulo={dataModal.titulo} mensagem={dataModal.mensagem} action={dataModal.action} />
-
             <div className='w-full h-full flex flex-col items-center py-4 px-2 gap-6 overflow-auto max-lg:h-auto'>
                 <div className='max-lg:hidden'>
                     <h1 className='text-2xl lg:text-6xl'>Cadastrar Arma</h1>
@@ -122,24 +113,26 @@ export default function CadastrarArma() {
                     onSubmit={handleSubmit(formularioNovaArma)}
                     className='w-full h-full flex flex-col justify-center items-center gap-4'>
 
-                    <input type="text" {
-                        ...register('numeroSerie')
-                    } placeholder='Numero de Serie' className={cssInput} />
-                    
-                    
-                    <div className='w-full gap-1 flex items-center flex-col'>
-                        <select type="text" {
-                            ...register('fabricante')
-                        } placeholder='Fabricante' className={cssSelect} >
-                            <option>Selecione um fabricante</option>
-                            {
-                                fabricantes.map((fabricante, index) => {
-                                    return (
-                                        <option key={index} value={fabricante.id}>{fabricante.nome}</option>
-                                    )
-                                })
-                            }
-                        </select>
+                    <TextField id="outlined-basic" label="Numero de Serie" variant="outlined" className='w-2/5 h-16' {...register('numeroSerie')} />
+
+                    <div className='w-2/5 relative'>
+
+                        <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label">Fabricante</InputLabel>
+                            <Select
+                                label="Fabricante"
+                                {...register('fabricantes')}
+
+                            >
+                                {
+                                    fabricantes.map((fabricante, index) => {
+                                        return (
+                                            <MenuItem key={index} value={fabricante.id}>{fabricante.nome}</MenuItem>
+                                        )
+                                    })
+                                }
+                            </Select>
+                        </FormControl>
                         <ModalFabricantes fabricantes={fabricantes} getFabricantes={getFabricantes} />
                     </div>
 

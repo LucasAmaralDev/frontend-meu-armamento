@@ -1,3 +1,4 @@
+import { Button } from '@mui/material'
 import React from 'react'
 
 export default function ModalResposta(props) {
@@ -39,17 +40,12 @@ export default function ModalResposta(props) {
 
                         <footer className='w-full h-2/6 flex justify-center items-center'>
 
-                            <button
-                                className='w-1/2 h-10 bg-blue-500 text-white rounded-lg'
-                                onClick={() => {
+                            <Button variant="contained" className='w-1/2 h-12 bg-gray-900 text-white rounded-lg' color='info' type='submit' onClick={() => {
                                     setModal(false)
                                     if (props.action) {
                                         props.action()
                                     }
-                                }}
-                            >
-                                Ok
-                            </button>
+                                }} >OK</Button>
 
                         </footer>
 

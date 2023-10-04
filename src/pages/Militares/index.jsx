@@ -9,7 +9,7 @@ export default function Militares() {
     const infoPaginacao = {
         itens_por_pagina: 8,
     }
-
+    
     const navigate = useNavigate()
     const [militares, setMilitares] = useState([])
     const [pagina, setPagina] = useState(1)

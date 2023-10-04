@@ -1,8 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import HOST from '../../services/host'
 import ModalResposta from '../ModalResposta'
+import { ToasterContext } from '../../Context/ToasterContext'
 
 export default function BotaoAcoesMilitares(props) {
+
+    const { toast } = useContext(ToasterContext)
 
     const [batalhoes, setBatalhoes] = useState([])
     const [open, setOpen] = useState(false)
@@ -68,7 +71,7 @@ export default function BotaoAcoesMilitares(props) {
 
 
     async function atualizarMilitar() {
-
+        const toastMilitar = toast.loading('Atualizando militar...')
         const token = localStorage.getItem('token')
 
         const response = await fetch(HOST + 'militares/update/' + props.militar.id, {
@@ -87,26 +90,23 @@ export default function BotaoAcoesMilitares(props) {
         const data = await response.json()
 
         if (response.ok) {
-            setDadosModal({
-                titulo: 'Sucesso',
-                mensagem: 'Militar atualizado com sucesso'
+            toast.success('Militar atualizado com sucesso',{
+                id: toastMilitar
             })
-            setModal(true)
+            props.atualizarDados()
         }
 
         else {
-            setDadosModal({
-                titulo: 'Erro',
-                mensagem: data.error
+            toast.error(data.error, {
+                id: toastMilitar
             })
-            setModal(true)
         }
 
     }
 
 
     async function excluirMilitar() {
-
+        const toastExcluirMilitar = toast.loading("Excluindo militar...")
         const response = await fetch(HOST + 'militares/delete/' + props.militar.id, {
             method: 'DELETE',
             headers: {
@@ -119,19 +119,16 @@ export default function BotaoAcoesMilitares(props) {
         const data = await response.json()
 
         if (response.ok) {
-            setDadosModal({
-                titulo: 'Sucesso',
-                mensagem: 'Militar deletado com sucesso',
+            toast.success("Militar excluido com sucesso",{
+                id: toastExcluirMilitar
             })
-            setModal(true)
+            props.atualizarDados()
         }
 
         else {
-            setDadosModal({
-                titulo: 'Erro ao deletar militar',
-                mensagem: data.error
+            toast.error(data.error, {
+                id: toastExcluirMilitar
             })
-            setModal(true)
         }
 
     }
@@ -222,7 +219,7 @@ export default function BotaoAcoesMilitares(props) {
 
                 openModalEditar &&
 
-                <div className='fixed top-0 left-0 w-full h-screen bg-black bg-opacity-50 flex justify-center items-center z-50'>
+                <div className='fixed top-0 left-0 w-full flex flex-col h-screen bg-black bg-opacity-50 justify-center items-center z-50'>
 
                     <section
                         className='w-96 min-h-96 py-6 overflow-x-auto bg-white rounded-md shadow-md flex flex-col justify-around items-center gap-4 overflow-auto'

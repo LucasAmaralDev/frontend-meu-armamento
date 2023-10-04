@@ -55,6 +55,7 @@ export default function BotaoAcoes(props) {
   })
 
   async function atualizarArma() {
+    const toastId = props.toast.loading('Atualizando a arma...');
 
     const token = localStorage.getItem('token')
 
@@ -74,26 +75,23 @@ export default function BotaoAcoes(props) {
     const data = await response.json()
 
     if (response.ok) {
-      
-      setDadosModal({
-        titulo: 'Sucesso',
-        mensagem: 'Arma atualizada com sucesso'
-      })
-      setModal(true)
+      props.toast.success('Arma atualizada com sucesso', {
+        id: toastId,
+      });
+      props.atualizarDados()
     }
 
     else {
-      setDadosModal({
-        titulo: 'Erro',
-        mensagem: data.error
-      })
-      setModal(true)
+      props.toast.error(data.error, {
+        id: toastId,
+      });
     }
 
   }
 
 
   async function excluirArma() {
+    const toastId = props.toast.loading('Deletando a arma...');
 
     const response = await fetch(HOST + 'arma/delete/' + props.arma.id, {
       method: 'DELETE',
@@ -107,19 +105,16 @@ export default function BotaoAcoes(props) {
     const data = await response.json()
 
     if (response.ok) {
-      setDadosModal({
-        titulo: 'Sucesso',
-        mensagem: 'Arma excluida com sucesso',
-      })
-      setModal(true)
+      props.toast.success('Arma deletada com sucesso', {
+        id: toastId,
+      });
+      props.atualizarDados()
     }
       
       else {
-        setDadosModal({
-          titulo: 'Erro',
-          mensagem: data.error
-        })
-        setModal(true)
+        props.toast.error(data.error, {
+          id: toastId,
+        });
       }
 
   }
@@ -128,7 +123,6 @@ export default function BotaoAcoes(props) {
   return (
     <>
 
-      <ModalResposta modal={modal} setModal={setModal} titulo={dadosModal.titulo} mensagem={dadosModal.mensagem} action={props.atualizarDados} />
 
       {/* MODAL DE VER AS INFORMAÇÔES DA ARMA */}
 
@@ -309,7 +303,7 @@ export default function BotaoAcoes(props) {
 
         openModalEditar &&
 
-        <div className='fixed top-0 left-0 w-full h-screen max-h-screen max-w-full bg-black bg-opacity-50 flex justify-center items-center z-50 py-10'>
+        <div className='fixed top-0 left-0 flex flex-col w-full h-screen max-h-screen max-w-full bg-black bg-opacity-50 flex justify-center items-center z-50 py-10'>
 
           <section
             style={{

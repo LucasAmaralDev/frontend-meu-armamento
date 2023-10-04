@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from 'react'
-import EscopoAdmin from '../../components/EscopoAdmin'
+import React, { useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import ModalResposta from '../../components/ModalResposta'
+import { useNavigate } from 'react-router-dom'
+import { ToasterContext } from '../../Context/ToasterContext'
+import EscopoAdmin from '../../components/EscopoAdmin'
 import HOST from '../../services/host'
 import { cssButtonConfirm, cssInput } from '../../services/utils'
 
 export default function AlterarSenha() {
 
+    const { toast } = useContext(ToasterContext)
+    const navigate = useNavigate()
+
     const { register, handleSubmit } = useForm()
     const [meusDados, setMeusDados] = useState({})
-    const [modal, setModal] = useState(false)
-    const [dadosModal, setDadosModal] = useState({})
 
     async function carregarMeusDados() {
 
@@ -31,19 +33,15 @@ export default function AlterarSenha() {
     }, [])
 
 
-    function voltarParaHome() {
-        window.location.href = '/home'
-    }
 
     async function atualizarDados(dados) {
+        const toastAtualizarSenha = toast.loading("Atualizando a senha...")
 
         if (dados.confirmarSenha !== dados.novaSenha) {
-            setDadosModal({
-                titulo: 'Erro',
-                mensagem: 'As senhas não coincidem'
+            toast.error('As senhas não coincidem', {
+                id: toastAtualizarSenha
             })
 
-            setModal(true)
             return
         }
 
@@ -59,68 +57,59 @@ export default function AlterarSenha() {
         const dataResponse = await response.json()
 
         if (response.ok) {
-            setDadosModal({
-                titulo: 'Sucesso',
-                mensagem: dataResponse.message,
-                action: voltarParaHome
+            toast.success("Senha Atualizada", {
+                id: toastAtualizarSenha
             })
-
-            setModal(true)
+            navigate('/home')
         }
 
         else {
-            setDadosModal({
-                titulo: 'Erro',
-                mensagem: dataResponse.error
+            toast.error(dataResponse.error, {
+                id: toastAtualizarSenha
             })
-
-            setModal(true)
         }
 
     }
 
     return (
         <>
-            <ModalResposta modal={modal} setModal={setModal} titulo={dadosModal.titulo} mensagem={dadosModal.mensagem} action={dadosModal.action} />
-
-
             <EscopoAdmin titulo="Alterar Senha">
-                
-            <section className='w-full pt-10'>
-                        <form onSubmit={handleSubmit(atualizarDados)}>
 
-                            <div className="flex flex-col gap-2 max-lg:gap-4 w-full items-center">
+                <section className='w-full pt-10'>
+                    <form onSubmit={handleSubmit(atualizarDados)}>
+
+                        <div className="flex flex-col gap-2 max-lg:gap-4 w-full items-center">
 
 
-                                <label className="flex flex-col items-center gap-1 max-lg:gap-2 w-full max-lg:w-4/5">
-                                    <span>Senha</span>
-                                    <input className={cssInput}
+                            <label className="flex flex-col items-center gap-1 max-lg:gap-2 w-full max-lg:w-4/5">
+                                <span>Senha</span>
+                                <input className={cssInput}
                                     type="password"
-                                        {...register('senha')} />
-                                </label>
+                                    {...register('senha')} />
+                            </label>
 
-                                <label className="flex flex-col items-center gap-1 max-lg:gap-2 w-full max-lg:w-4/5">
-                                    <span>Nova Senha</span>
-                                    <input className={cssInput} 
+                            <label className="flex flex-col items-center gap-1 max-lg:gap-2 w-full max-lg:w-4/5">
+                                <span>Nova Senha</span>
+                                <input className={cssInput}
                                     type="password"
-                                        {...register('novaSenha')} />
-                                </label>
+                                    {...register('novaSenha')} />
+                            </label>
 
-                                <label className="flex flex-col items-center gap-1 max-lg:gap-2 w-full max-lg:w-4/5">
-                                    <span>Confirmar Senha</span>
-                                    <input className={cssInput} 
+                            <label className="flex flex-col items-center gap-1 max-lg:gap-2 w-full max-lg:w-4/5">
+                                <span>Confirmar Senha</span>
+                                <input className={cssInput}
                                     type="password"
-                                        {...register('confirmarSenha')} />
-                                </label>
+                                    {...register('confirmarSenha')} />
+                            </label>
 
 
-                            </div>
+                        </div>
 
-                            <div className="flex justify-center items-center gap-2 max-lg:gap-4 w-full mt-4 px-9">
-                                <button className={cssButtonConfirm}>ATUALIZAR</button>
-                            </div>
-                        </form>
-                    </section>
+                        <div className="flex justify-center items-center gap-2 max-lg:gap-4 w-full mt-4 px-9">
+                            <button className={cssButtonConfirm}>ATUALIZAR</button>
+                        </div>
+                    </form>
+                </section>
 
             </EscopoAdmin>
         </>

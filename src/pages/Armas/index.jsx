@@ -1,9 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import EscopoAdmin from '../../components/EscopoAdmin'
 import HOST from '../../services/host'
 import BotaoAcoes from '../../components/BotaoAcoesArma'
 import { useNavigate } from 'react-router-dom'
-
+import { Accordion, AccordionDetails, AccordionSummary, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { AddIcCallOutlined } from '@mui/icons-material'
+import AddIcon from '@mui/icons-material/Add';
+import toast, { Toaster } from 'react-hot-toast';
+import { ToasterContext } from '../../Context/ToasterContext'
 /**
  * 
  * Informações sobre a página de Armas
@@ -32,6 +37,7 @@ import { useNavigate } from 'react-router-dom'
  */
 
 export default function Armas() {
+    const { toast } = useContext(ToasterContext)
 
     const infoPaginacao = {
         itens_por_pagina: 8,
@@ -44,9 +50,9 @@ export default function Armas() {
     const [filtro, setFiltro] = useState({
         modelo: '',
         fabricante: '',
-        anoDeFabricacao: NaN,
+        anoDeFabricacao: '',
         estadoConservacao: '',
-    })  
+    })
 
     async function carregarArmas() {
 
@@ -113,7 +119,7 @@ export default function Armas() {
 
         setArmasFiltradas(listaDeArmas)
         setPagina(1)
-        
+
     }, [filtro, armas])
 
 
@@ -122,123 +128,116 @@ export default function Armas() {
             <EscopoAdmin titulo='ARMAS'>
 
                 {/* CONTAINER DA PAGINA DE ARMAS */}
-                <div className="w-full h-full overflow-y-auto max-lg:overflow-x-scroll p-4 max-lg:px-1">
+                <div className="w-full h-full flex flex-col gap-3 items-center overflow-y-auto max-lg:overflow-x-scroll p-4 max-lg:px-1 bg-stone-100">
 
                     {/* PARTE DOS FILTROS */}
-                    <section className='w-full flex justify-center items-center flex-col p-2 gap-2 max-lg:gap-6'>
+                    <div className='w-full'>
+                        <Accordion>
+                            <AccordionSummary
 
-
-
-                        <div className='flex max-lg:flex-col max-lg:gap-4 w-full lg:justify-around lg:h-40 lg:items-center shadow-sm rounded-md'
-                        >
-
-                            <div
-                                className='flex flex-col justify-around items-center w-1/5 h-full max-lg:w-full'
+                                expandIcon={<ExpandMoreIcon />}
+                                aria-controls="panel1a-content"
+                                id="panel1a-header"
                             >
-                                <label htmlFor='modelo' className='text-lg'>Modelo</label>
+                                <Typography >Filtros</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
 
-                                <input
-                                    type='text'
-                                    id='modelo'
-                                    placeholder='Insira o Modelo'
-                                    className='w-full px-2 py-1 rounded-md border-2 text-center border-gray-400 focus:border-blue-500 focus:outline-none text-base'
-                                    value={filtro.modelo}
-                                    onChange={(e) => {
-                                        setFiltro({
-                                            ...filtro,
-                                            modelo: e.target.value
-                                        })
-                                    }}
-                                />
-                            </div>
+                                <section className='w-full flex justify-center items-center flex-col p-2 gap-2 max-lg:gap-6'>
 
-                            <div
-                                className='flex flex-col justify-around items-center w-1/5 h-full max-lg:hidden'>
-                                <label htmlFor='fabricante' className='text-lg'>Fabricante</label>
-                                
-                                <input 
-                                type='text' 
-                                id='fabricante' 
-                                placeholder='Insira o Fabricante' 
-                                className='w-full px-2 py-1 rounded-md border-2 text-center border-gray-400 focus:border-blue-500 focus:outline-none text-base' 
-                                value={filtro.fabricante}
-                                onChange={(e) => {
-                                    setFiltro({
-                                        ...filtro,
-                                        fabricante: e.target.value
-                                    })
-                                }}
-                                />
-                            </div>
 
-                            <div
-                                className='flex flex-col justify-around items-center w-1/5 h-full max-lg:hidden'>
-                                <label htmlFor='anoDeFabricacao' className='text-lg'>Ano de Fabricação</label>
-                                
-                                <input 
-                                type='number' 
-                                id='anoDeFabricacao' 
-                                placeholder='Insira o Ano de Fabricação' 
-                                className='w-full px-2 py-1 text-center rounded-md border-2 border-gray-400 focus:border-blue-500 focus:outline-none text-base'
-                                value={filtro.anoDeFabricacao}
-                                onChange={(e) => {
-                                    setFiltro({
-                                        ...filtro,
-                                        anoDeFabricacao: e.target.value
-                                    })
-                                }}
-                                />
-                            
-                            </div>
 
-                            <div
-                                className='flex flex-col justify-around items-center w-1/5 h-full max-lg:w-full'>
-                                <label htmlFor='estadoConservacao' className='text-lg'>Estado de Conservação</label>
-                                
-                                <select 
-                                name="estadoConservacao" 
-                                id="estadoConservacao" 
-                                className='w-full px-2 py-1 rounded-md border-2 text-center border-gray-400 focus:border-blue-500 focus:outline-none text-base'
-                                value={filtro.estadoConservacao}
-                                onChange={(e) => {
-                                    setFiltro({
-                                        ...filtro,
-                                        estadoConservacao: e.target.value
-                                    })
-                                }}
-                                >
-                                    <option value="">Todos</option>
-                                    <option value="NOVO">Novo</option>
-                                    <option value="EXCELENTE">Excelente</option>
-                                    <option value="BOM">Bom</option>
-                                    <option value="REGULAR">Regular</option>
-                                    <option value="BAIXADA">Baixada</option>
-                                </select>
-                            </div>
-                        </div>
+                                    <div className='flex max-lg:flex-col max-lg:gap-4 w-full lg:justify-around lg:h-20  lg:items-center shadow-sm rounded-md'
+                                    >
+
+                                        <div className='flex flex-col justify-around items-center w-1/5 h-full max-lg:w-full' >
+
+                                            <TextField id="outlined-basic" label="Filtrar por Modelo" value={filtro.modelo} variant="outlined" className='w-full' onChange={(e) => {
+                                                setFiltro({
+                                                    ...filtro,
+                                                    modelo: e.target.value
+                                                })
+                                            }} />
+
+                                        </div>
+
+                                        <div
+                                            className='flex flex-col justify-around items-center w-1/5 h-full max-lg:hidden'>
+
+
+                                            <TextField id="outlined-basic" label="Filtrar por Fabricante" variant="outlined" value={filtro.fabricante} className='w-full' onChange={(e) => {
+                                                setFiltro({
+                                                    ...filtro,
+                                                    fabricante: e.target.value
+                                                })
+                                            }} />
+
+                                        </div>
+
+                                        <div
+                                            className='flex flex-col justify-around items-center w-1/5 h-full max-lg:hidden'>
+
+
+                                            <TextField id="outlined-basic" label="Filtrar por Ano de Fabricação" variant="outlined" className='w-full' value={filtro.anoDeFabricacao} onChange={(e) => {
+                                                setFiltro({
+                                                    ...filtro,
+                                                    anoDeFabricacao: e.target.value
+                                                })
+                                            }} />
+
+                                        </div>
+
+                                        <div
+                                            className='flex flex-col justify-around items-center w-1/5 h-full max-lg:w-full'>
+                                            <FormControl fullWidth>
+                                                <InputLabel id="demo-simple-select-label">Estado de Conservação</InputLabel>
+                                                <Select
+                                                    labelId="demo-simple-select-label"
+                                                    id="demo-simple-select"
+                                                    value={filtro.estadoConservacao}
+                                                    label="Estado de Conservação"
+                                                    onChange={(e) => {
+                                                        setFiltro({
+                                                            ...filtro,
+                                                            estadoConservacao: e.target.value
+                                                        })
+                                                    }}
+                                                >
+                                                    <MenuItem value=''>Todos</MenuItem>
+                                                    <MenuItem value="NOVO">Novo</MenuItem>
+                                                    <MenuItem value="EXCELENTE">Excelente</MenuItem>
+                                                    <MenuItem value="BOM">Bom</MenuItem>
+                                                    <MenuItem value="REGULAR">Regular</MenuItem>
+                                                    <MenuItem value="BAIXADA">Baixada</MenuItem>
+                                                </Select>
+                                            </FormControl>
+
+                                        </div>
+                                    </div>
 
 
 
 
-                    </section>
+                                </section>
 
-                    
+                            </AccordionDetails>
+                        </Accordion>
+                    </div>
+
+
+
+
+
 
 
                     {/* PARTE DA TABELA */}
                     <section className='w-full flex justify-center items-center flex-col p-2 gap-2 mb-1 max-lg:mb-24 max-lg:px-0 max-lg:flex-col-reverse'>
-                        <div className='max-lg:hidden'>
-                            <h1 className='text-4xl max-lg:text-lg'>ARMAS</h1>
-                        </div>
+
                         <div>
-                            <button
-                                className='w-60 h-12 rounded-md bg-green-500 text-white text-lg focus:outline-none hover:bg-green-600 my-2'
-                                onClick={() => {
-                                    navigate('/armas/cadastrar')
-                                }}
-                            >
-                                Cadastrar Nova Arma
-                            </button>
+                            <Button variant="contained" startIcon={<AddIcon />} onClick={() => {
+                                navigate('/armas/cadastrar')
+                            }}>Cadastrar Arma</Button>
+
                         </div>
 
                         <div className='w-full flex justify-center items-center flex-col gap-2 max-lg:gap-6 max-lg:items-start'>
@@ -257,7 +256,7 @@ export default function Armas() {
                                 <tbody className='bg-gray-100 text-center text-lg'>
                                     {
                                         armasfiltradas.length > 0 ? armasfiltradas.map((arma, index) => {
-                                            if(index >= (pagina - 1) * infoPaginacao.itens_por_pagina && index < pagina * infoPaginacao.itens_por_pagina){
+                                            if (index >= (pagina - 1) * infoPaginacao.itens_por_pagina && index < pagina * infoPaginacao.itens_por_pagina) {
                                                 return (
                                                     <tr key={arma.id}>
                                                         <td className='py-2'>{arma.numeroSerie}</td>
@@ -267,7 +266,7 @@ export default function Armas() {
                                                         <td className='py-2 max-lg:hidden'>{arma.estadoConservacao}</td>
                                                         <td className='py-2'>{arma.emUso ? 'Sim' : 'Não'}</td>
                                                         <td className='py-2'>
-                                                            <BotaoAcoes arma={arma} atualizarDados={carregarArmas} />
+                                                            <BotaoAcoes toast={toast} arma={arma} atualizarDados={carregarArmas} />
                                                         </td>
                                                     </tr>
                                                 )
@@ -283,48 +282,48 @@ export default function Armas() {
 
 
                                 {
-                                    armasfiltradas.length > infoPaginacao.itens_por_pagina  ?
+                                    armasfiltradas.length > infoPaginacao.itens_por_pagina ?
 
-                                    <tfoot className='bg-green-500 text-white text-2xl w-full'>
+                                        <tfoot className='bg-green-500 text-white text-2xl w-full'>
 
-                                    <tr>
+                                            <tr>
 
-                                        <td className='py-2' colSpan='7'>
+                                                <td className='py-2' colSpan='7'>
 
-                                            <div className='w-full flex justify-center items-center gap-2'>
-                                                
-                                                <button
-                                                onClick={() => {
-                                                    if(pagina > 1){
-                                                        setPagina(pagina - 1)
-                                                    }
-                                                }}
+                                                    <div className='w-full flex justify-center items-center gap-2'>
 
-                                                >{'<<'}</button>
-                                                <p>{pagina} de { Math.ceil(armasfiltradas.length / infoPaginacao.itens_por_pagina)}</p>
-                                                
-                                                <button
-                                                onClick={
-                                                    () => {
-                                                        if(pagina < Math.ceil(armasfiltradas.length / infoPaginacao.itens_por_pagina)){
-                                                            setPagina(pagina + 1)
-                                                        }
-                                                    }
-                                                }
-                                                >{'>>'}</button>
+                                                        <button
+                                                            onClick={() => {
+                                                                if (pagina > 1) {
+                                                                    setPagina(pagina - 1)
+                                                                }
+                                                            }}
 
-                                            </div>
+                                                        >{'<<'}</button>
+                                                        <p>{pagina} de {Math.ceil(armasfiltradas.length / infoPaginacao.itens_por_pagina)}</p>
 
-                                        </td>
+                                                        <button
+                                                            onClick={
+                                                                () => {
+                                                                    if (pagina < Math.ceil(armasfiltradas.length / infoPaginacao.itens_por_pagina)) {
+                                                                        setPagina(pagina + 1)
+                                                                    }
+                                                                }
+                                                            }
+                                                        >{'>>'}</button>
 
-                                    </tr>
+                                                    </div>
 
-                                </tfoot>
+                                                </td>
 
-                                : 
-                                <></>
+                                            </tr>
+
+                                        </tfoot>
+
+                                        :
+                                        <></>
                                 }
-                                
+
                             </table>
                         </div>
                     </section>

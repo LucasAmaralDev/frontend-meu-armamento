@@ -64,13 +64,13 @@ export default function ModalFabricantes(props) {
   return (
     <>
 
-      <span className=' w-2/5 bg-green-600 text-white text-center flex justify-center px-1 py-2 mt-1 rounded-md cursor-pointer' onClick={() => { setOpen(true) }}>Adicionar Fabricante</span>
+      <span className=' w-full bg-green-600 h-8 text-xs text-white text-center flex justify-center px-1 py-2 mt-1 rounded-md cursor-pointer' onClick={() => { setOpen(true) }}>Adicionar Fabricante</span>
 
 
       {
         open &&
         <>
-          <div className='fixed top-0 left-0 bg-black bg-opacity-30 w-screen h-screen'>
+          <div className='fixed top-0 left-0 bg-black bg-opacity-30 w-screen h-screen z-50'>
 
             <section className='w-5/12 h-4/5 bg-white rounded-md absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col justify-between items-center gap-4 py-4'>
 

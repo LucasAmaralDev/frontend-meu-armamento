@@ -1,25 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+import { ToasterContext } from '../../Context/ToasterContext'
 import EscopoAdmin from '../../components/EscopoAdmin'
 import HOST from '../../services/host'
-import { useForm } from 'react-hook-form'
-import ModalResposta from '../../components/ModalResposta'
 import { cssButtonConfirm, cssInput } from '../../services/utils'
 
 export default function EditarPerfil() {
-    //Classes do tailwind
-    
+
+    const { toast } = useContext(ToasterContext)
+    const navigate = useNavigate()
 
     const [meusDados, setMeusDados] = useState({})
     const { register, handleSubmit } = useForm()
-    const [modal, setModal] = useState(false)
-    const [dadosModal, setDadosModal] = useState({})
-
-    function voltarParaHome() {
-        window.location.href = '/home'
-    }
 
     async function atualizarDados(dados) {
-        
+        const toastAtualizar = toast.loading('Atualizando perfil...')
         const response = await fetch(HOST + 'armeiro/update/' + meusDados.id, {
             method: 'PUT',
             headers: {
@@ -32,22 +28,16 @@ export default function EditarPerfil() {
         const dataResponse = await response.json()
 
         if (response.ok) {
-            setDadosModal({
-                titulo: 'Sucesso',
-                mensagem: dataResponse.message,
-                action: voltarParaHome
+            toast.success("Perfil atualizado", {
+                id: toastAtualizar
             })
-
-            setModal(true)
+            navigate('/home')
         }
 
         else {
-            setDadosModal({
-                titulo: 'Erro',
-                mensagem: dataResponse.error
+            toast.error(dataResponse.error, {
+                id: toastAtualizar
             })
-
-            setModal(true)
         }
     }
 
@@ -72,9 +62,6 @@ export default function EditarPerfil() {
 
     return (
         <>
-            <ModalResposta modal={modal} setModal={setModal} titulo={dadosModal.titulo} mensagem={dadosModal.mensagem} action={dadosModal.action} />
-
-
             <EscopoAdmin titulo="Editar Perfil">
 
                 {

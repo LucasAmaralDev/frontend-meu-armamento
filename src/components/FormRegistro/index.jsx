@@ -1,10 +1,15 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import HOST from '../../services/host'
 import ModalResposta from '../ModalResposta'
 import { useNavigate } from 'react-router-dom'
+import { Button, TextField } from '@mui/material'
+import { ToasterContext } from '../../Context/ToasterContext'
 
 export default function FormRegistro(props) {
+
+    const { toast } = useContext(ToasterContext)
+
     const [open, setOpen] = useState(false)
     const [dados, setDados] = useState({
         titulo: '',
@@ -15,6 +20,7 @@ export default function FormRegistro(props) {
     const { register, handleSubmit } = useForm()
 
     async function cadastrar(data) {
+        const registerToast = toast.loading('Efetuando Cadastro...');
 
         if (data.senha != data.confirmarSenha) {
             setDados({
@@ -47,41 +53,40 @@ export default function FormRegistro(props) {
         const dataResponse = await response.json()
 
         if (!response.ok) {
-         
-            setDados({
-                titulo: 'Erro',
-                mensagem: dataResponse.error
-            })
-            setOpen(true)
+            toast.error(dataResponse.error, {
+                id: registerToast,
+            });
             return
             
         }
 
         localStorage.setItem('token', dataResponse.token)
         navigate('/home')
+        toast.success('Bem-Vindo ao Gestão de Armas', {
+            id: registerToast,
+        });
     }
 
     return (
         <>
-
-        <ModalResposta modal={open} setModal={setOpen} mensagem={dados.mensagem} titulo={dados.titulo} />
 
             <form onSubmit={handleSubmit(cadastrar)}
                 className='h-full w-5/12 flex bg-white flex-col justify-center items-center gap-4 px-4'
             >
                 <h1 className='text-4xl font-bold text-gray-900'>Registro</h1>
 
-                <input type="text" {...register('registroMilitar')} placeholder='Registro Militar' className='w-full h-12 border border-gray-300 rounded-lg px-4' />
+                <TextField id="outlined-basic" label="Registro Militar" variant="outlined" {...register('registroMilitar')} className='w-full' />
 
-                <input type="text" {...register('nome')} placeholder='Nome' className='w-full h-12 border border-gray-300 rounded-lg px-4' />
+                <TextField id="outlined-basic" label="Nome" variant="outlined" {...register('nome')} className='w-full' />
 
-                <input type="email" {...register('email')} placeholder='Email' className='w-full h-12 border border-gray-300 rounded-lg px-4' />
+                <TextField id="outlined-basic" label="Email" type='email' variant="outlined" {...register('email')} className='w-full' />
 
-                <input type="password" {...register('senha')} placeholder='Senha' className='w-full h-12 border border-gray-300 rounded-lg px-4' />
+                <TextField id="outlined-basic" label="Senha" type='password' variant="outlined" {...register('senha')} className='w-full' />
 
-                <input type='password' {...register('confirmarSenha')} placeholder='ConfirmarSenha' className='w-full h-12 border border-gray-300 rounded-lg px-4' />
+                <TextField id="outlined-basic" label="Confirmar Senha" type='password' variant="outlined" {...register('confirmarSenha')} className='w-full' />
 
-                <button className='w-full h-12 bg-gray-900 text-white rounded-lg'>Cadastrar</button>
+                <Button variant="contained" className='w-full h-12 bg-gray-900 text-white rounded-lg' color='success' type='submit' >Cadastrar</Button>
+
 
                 <div className='text-gray-900 cursor-pointer' onClick={() => props.setPagina('Login')}>Já possuo uma conta</div>
 
