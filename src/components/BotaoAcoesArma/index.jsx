@@ -1,38 +1,23 @@
-import React, { useEffect, useRef, useState } from 'react'
-import HOST from '../../services/host'
-import ModalResposta from '../ModalResposta'
+import Button from '@mui/material/Button';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import React, { useState } from 'react';
+import HOST from '../../services/host';
+import { FormControl, InputLabel, Select, TextField } from '@mui/material';
+
 
 export default function BotaoAcoes(props) {
 
-  const [open, setOpen] = useState(false)
-  const [modal, setModal] = useState(false)
-  const [dadosModal, setDadosModal] = useState({})
+  const [anchorEl, setAnchorEl] = useState(null)
+  const boOpen = Boolean(anchorEl)
 
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  }
 
-
-
-
-
-  // Função para fechar o dropdown quando o usuário clica fora dele
-  const dropdownRef = useRef(null);
-
-  const closeDropdown = (e) => {
-    setTimeout(() => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setOpen(false);
-      }
-    }, 250)
+  const handleClose = () => {
+    setAnchorEl(null);
   };
-
-  useEffect(() => {
-    // Adicionar um event listener para cliques no documento inteiro
-    document.addEventListener('mousedown', closeDropdown);
-
-    // Remover o event listener quando o componente é desmontado
-    return () => {
-      document.removeEventListener('mousedown', closeDropdown);
-    };
-  }, []);
 
 
 
@@ -110,12 +95,12 @@ export default function BotaoAcoes(props) {
       });
       props.atualizarDados()
     }
-      
-      else {
-        props.toast.error(data.error, {
-          id: toastId,
-        });
-      }
+
+    else {
+      props.toast.error(data.error, {
+        id: toastId,
+      });
+    }
 
   }
 
@@ -303,7 +288,7 @@ export default function BotaoAcoes(props) {
 
         openModalEditar &&
 
-        <div className='fixed top-0 left-0 flex flex-col w-full h-screen max-h-screen max-w-full bg-black bg-opacity-50 flex justify-center items-center z-50 py-10'>
+        <div className='fixed top-0 left-0 flex-col w-full h-screen max-h-screen max-w-full bg-black bg-opacity-50 flex justify-center items-center z-50 py-10'>
 
           <section
             style={{
@@ -317,155 +302,73 @@ export default function BotaoAcoes(props) {
             </header>
 
             <main
-              className='w-full h-5/6 overflow-y-auto flex flex-col justify-center items-center gap-4'
+              className='w-full h-5/6 overflow-y-auto flex flex-col items-center gap-4'
             >
 
-              <div
-                className='w-full flex-col flex justify-between items-center px-4 gap-1 rounded-md'
-              >
-                <label
-                  htmlFor="numeroSerie"
-                  className='text-xl font-bold'
-                >Numero de Serie</label>
+              <div className='w-full flex-col flex justify-between items-center p-2 gap-1 rounded-md' >
 
-                <input
-                  type="text"
-                  id='numeroSerie'
-                  disabled={true}
-                  className='w-60 text-center h-10 rounded-md border-2 border-gray-300 focus:outline-none px-4'
-                  value={armaDados.numeroSerie}
-                />
+                <TextField label="Numero de Serie" defaultValue={armaDados.numeroSerie} disabled variant="outlined" className='w-full' />
 
               </div>
 
-              <div
-                className='w-full flex-col flex justify-between items-center px-4 gap-1 rounded-md'
-              >
-                <label
-                  htmlFor="fabricante"
-                  className='text-xl font-bold'
-                >Fabricante</label>
+              <div className='w-full flex-col flex justify-between items-center p-2 gap-1 rounded-md' >
 
-                <input
-                  type="text"
-                  id='fabricante'
-                  disabled={true}
-                  className='w-60 text-center h-10 rounded-md border-2 border-gray-300 focus:outline-none px-4'
-                  value={armaDados.fabricante}
-                />
+                <TextField label="Fabricante" defaultValue={armaDados.fabricante} disabled variant="outlined" className='w-full' />
 
               </div>
 
-              <div
-                className='w-full flex-col flex justify-between items-center px-4 gap-1 rounded-md'
-              >
-                <label
-                  htmlFor="modelo"
-                  className='text-xl font-bold'
-                >Modelo</label>
 
-                <input
-                  type="text"
-                  id='modelo'
-                  disabled={true}
-                  className='w-60 text-center h-10 rounded-md border-2 border-gray-300 focus:outline-none px-4'
-                  value={armaDados.modelo}
-                />
+              <div className='w-full flex-col flex justify-between items-center p-2 gap-1 rounded-md' >
+
+                <TextField label="Modelo" defaultValue={armaDados.modelo} disabled variant="outlined" className='w-full' />
 
               </div>
 
-              <div
-                className='w-full flex-col flex justify-between items-center px-4 gap-1 rounded-md max-lg:hidden'
-              >
-                <label
-                  htmlFor="calibre"
-                  className='text-xl font-bold'
-                >Calibre</label>
+              <div className='w-full flex-col flex justify-between items-center p-2 gap-1 rounded-md' >
 
-                <input
-                  type="text"
-                  id='calibre'
-                  disabled={true}
-                  className='w-60 text-center h-10 rounded-md border-2 border-gray-300 focus:outline-none px-4'
-                  value={armaDados.calibre}
-                />
+                <TextField label="Calibre" defaultValue={armaDados.calibre} disabled variant="outlined" className='w-full' />
 
               </div>
 
-              <div
-                className='w-full flex-col flex justify-between items-center px-4 gap-1 rounded-md max-lg:hidden'
-              >
-                <label
-                  htmlFor="capacidadeCarregador"
-                  className='text-xl font-bold'
-                >Capacidade</label>
+              <div className='w-full flex-col flex justify-between items-center p-2 gap-1 rounded-md' >
 
-                <input
-                  type="text"
-                  id='capacidadeCarregador'
-                  disabled={true}
-                  className='w-60 text-center h-10 rounded-md border-2 border-gray-300 focus:outline-none px-4'
-                  value={armaDados.capacidadeCarregador + ' Munições'}
-                />
+                <TextField label="Capacidade" defaultValue={armaDados.capacidadeCarregador + ' Munições'} disabled variant="outlined" className='w-full' />
 
               </div>
 
-              <div
-                className='w-full flex-col flex justify-between items-center px-4 gap-1 rounded-md'
-              >
-                <label
-                  htmlFor="estadoConservacao"
-                  className='text-xl font-bold'
-                >Estado de Conservação</label>
-
-                <select
-                  id='estadoConservacao'
-                  className='w-60 text-center h-10 rounded-md border-2 border-gray-300 focus:outline-none px-4'
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Estado de Conservação</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
                   value={armaDados.estadoConservacao}
-                  onChange={(e) => setArmaDados({ ...armaDados, estadoConservacao: e.target.value })}
+                  label="Estado de Conservação"
+                  onChange={(e) => {
+                    setArmaDados({
+                      ...armaDados,
+                      estadoConservacao: e.target.value
+                    })
+                  }}
                 >
-                  <option value="NOVO">Novo</option>
-                  <option value="EXCELENTE">Excelente</option>
-                  <option value="BOM">Bom</option>
-                  <option value="REGULAR">Regular</option>
-                  <option value="BAIXADA">Baixada</option>
-                </select>
+                  <MenuItem value=''>Todos</MenuItem>
+                  <MenuItem value="NOVO">Novo</MenuItem>
+                  <MenuItem value="EXCELENTE">Excelente</MenuItem>
+                  <MenuItem value="BOM">Bom</MenuItem>
+                  <MenuItem value="REGULAR">Regular</MenuItem>
+                  <MenuItem value="BAIXADA">Baixada</MenuItem>
+                </Select>
+              </FormControl>
+
+              <div className='w-full flex-col flex justify-between items-center p-2 gap-1 rounded-md' >
+
+                <TextField label="Tipo" defaultValue={armaDados.tipo} disabled variant="outlined" className='w-full' />
 
               </div>
 
-              <div
-                className='w-full flex-col flex justify-between items-center px-4 gap-1 rounded-md max-lg:hidden'
-              >
-                <label
-                  htmlFor="tipo"
-                  className='text-xl font-bold'
-                >Tipo</label>
 
-                <input
-                  type="text"
-                  id='tipo'
-                  disabled={true}
-                  className='w-60 text-center h-10 rounded-md border-2 border-gray-300 focus:outline-none px-4'
-                  value={armaDados.tipo}
-                />
+              <div className='w-full flex-col flex justify-between items-center p-2 gap-1 rounded-md' >
 
-              </div>
-
-              <div
-                className='w-full flex-col flex justify-between items-center px-4 gap-1 rounded-md max-lg:hidden'
-              >
-                <label
-                  htmlFor="anoFabricacao"
-                  className='text-xl font-bold'
-                >Fabricação</label>
-
-                <input
-                  type="text"
-                  id='anoFabricacao'
-                  disabled={true}
-                  className='w-60 text-center h-10 rounded-md border-2 border-gray-300 focus:outline-none px-4'
-                  value={armaDados.anoFabricacao}
-                />
+                <TextField label="Ano de Fabricação" defaultValue={armaDados.anoFabricacao} disabled variant="outlined" className='w-full' />
 
               </div>
 
@@ -560,43 +463,46 @@ export default function BotaoAcoes(props) {
       <div className='w-full h-full flex justify-center relative'>
 
         {/* Botao de acoes */}
-        <button
-          ref={dropdownRef}
-          onClick={() => setOpen(!open)}
-          className='w-20 h-10 rounded-md bg-blue-500 hover:bg-blue-600 active:bg-blue-800 text-white text-xl focus:outline-none'
-        >
-          Ações
-        </button>
 
-        <div className={`absolute top-10 left-0 w-full z-50 h-40 flex flex-col justify-around items-center bg-white rounded-md shadow-md ${open ? 'block' : 'hidden'}`}>
 
-          <button
-            onClick={() => {
-              setOpenModalVisualizar(!openModalVisualizar)
-              setOpen(!open)
+
+
+        <div>
+          <Button
+            id="basic-button"
+            aria-controls={boOpen ? 'basic-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={boOpen ? 'true' : undefined}
+            onClick={handleClick}
+            variant="contained"
+          >
+            Ações
+          </Button>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={boOpen}
+            onClose={handleClose}
+            MenuListProps={{
+              'aria-labelledby': 'basic-button',
             }}
-            className='w-full h-full text-xl text-green-500 focus:outline-none border-2 hover:bg-slate-50'>
-            Ver Mais
-          </button>
+          >
+            <MenuItem
 
-          <button
-            onClick={() => {
+              onClick={() => {
+                handleClose()
+                setOpenModalVisualizar(!openModalVisualizar)
+              }}>Ver Mais</MenuItem>
+
+            <MenuItem onClick={() => {
+              handleClose()
               setOpenModalEditar(!openModalEditar)
-              setOpen(!open)
-            }}
-            className='w-full h-full text-xl text-blue-500 focus:outline-none border-2 hover:bg-slate-50'>
-            Editar
-          </button>
-
-          <button
-            onClick={() => {
+            }}>Editar</MenuItem>
+            <MenuItem onClick={() => {
+              handleClose()
               setOpenModalExcluir(!openModalExcluir)
-              setOpen(!open)
-            }}
-            className='w-full h-full text-xl text-red-500 focus:outline-none border-2 hover:bg-slate-50'>
-            Excluir
-          </button>
-
+            }}>Excluir</MenuItem>
+          </Menu>
         </div>
 
       </div>

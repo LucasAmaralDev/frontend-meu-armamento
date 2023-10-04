@@ -62,7 +62,7 @@ export default function ModalBatalhoes(props) {
     return (
     <>
 
-            <span className='w-2/5 bg-green-600 text-white flex justify-center rounded-md cursor-pointer'
+            <span className='w-full bg-green-600 text-white flex justify-center rounded-md cursor-pointer'
                 onClick={() => { setOpen(true) }}
             >Gerir Batalhões</span>
 

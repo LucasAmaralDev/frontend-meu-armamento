@@ -1,16 +1,28 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
-import HOST from '../../services/host'
-import ModalResposta from '../ModalResposta'
-import { ToasterContext } from '../../Context/ToasterContext'
+import Button from '@mui/material/Button';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import React, { useContext, useEffect, useState } from 'react';
+import { ToasterContext } from '../../Context/ToasterContext';
+import HOST from '../../services/host';
+import { FormControl, InputLabel, Select, TextField } from '@mui/material';
 
 export default function BotaoAcoesMilitares(props) {
+
+    const [anchorEl, setAnchorEl] = useState(null)
+    const boOpen = Boolean(anchorEl)
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    }
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
 
     const { toast } = useContext(ToasterContext)
 
     const [batalhoes, setBatalhoes] = useState([])
-    const [open, setOpen] = useState(false)
-    const [modal, setModal] = useState(false)
-    const [dadosModal, setDadosModal] = useState({})
 
     const [openModalVisualizar, setOpenModalVisualizar] = useState(false)
     const [openModalEditar, setOpenModalEditar] = useState(false)
@@ -25,27 +37,8 @@ export default function BotaoAcoesMilitares(props) {
 
     })
 
-    // Função para fechar o dropdown quando o usuário clica fora dele
-    const dropdownRef = useRef(null);
 
-    const closeDropdown = (e) => {
-        setTimeout(() => {
-          if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-            setOpen(false);
-          }
-        }, 250)
-      };
-    useEffect(() => {
-        // Adicionar um event listener para cliques no documento inteiro
-        document.addEventListener('mousedown', closeDropdown);
-    
-        // Remover o event listener quando o componente é desmontado
-        return () => {
-          document.removeEventListener('mousedown', closeDropdown);
-        };
-      }, []);
 
-    
     async function getBatalhoes() {
         const response = await fetch(HOST + 'batalhao', {
             method: 'GET',
@@ -90,7 +83,7 @@ export default function BotaoAcoesMilitares(props) {
         const data = await response.json()
 
         if (response.ok) {
-            toast.success('Militar atualizado com sucesso',{
+            toast.success('Militar atualizado com sucesso', {
                 id: toastMilitar
             })
             props.atualizarDados()
@@ -119,7 +112,7 @@ export default function BotaoAcoesMilitares(props) {
         const data = await response.json()
 
         if (response.ok) {
-            toast.success("Militar excluido com sucesso",{
+            toast.success("Militar excluido com sucesso", {
                 id: toastExcluirMilitar
             })
             props.atualizarDados()
@@ -137,7 +130,6 @@ export default function BotaoAcoesMilitares(props) {
     return (
         <>
 
-            <ModalResposta modal={modal} action={props.atualizarDados} setModal={setModal} titulo={dadosModal.titulo} mensagem={dadosModal.mensagem} />
 
             {/* MODAL DE VER AS INFORMAÇÔES DO MILITAR */}
 
@@ -230,64 +222,53 @@ export default function BotaoAcoesMilitares(props) {
                         </header>
 
                         <main
-                            className='w-full h-full flex flex-col justify-center items-center gap-4'
+                            className='w-full h-full flex flex-col justify-center items-center gap-4 px-2'
                         >
 
-                            <div className='w-full flex-col flex justify-between items-center px-4 gap-1 rounded-md'>
+                            <div className='w-full flex-col flex justify-between items-center py-2 gap-1 rounded-md' >
 
-                                <label htmlFor="registroMilitar" className='text-xl font-bold'>
-                                    Registro Militar
-                                </label>
-
-                                <input type="text" id='registroMilitar' disabled={true} className='w-60 text-center h-10 rounded-md border-2 border-gray-300 focus:outline-none px-4'
-                                    value={militarDados.registroMilitar}
-                                />
+                                <TextField label="Registro Militar" defaultValue={militarDados.registroMilitar} disabled variant="outlined" className='w-full' />
 
                             </div>
 
-                            <div className='w-full flex-col flex justify-between items-center px-4 gap-1 rounded-md'>
+                            <div className='w-full flex-col flex justify-between items-center py-2 gap-1 rounded-md' >
 
-                                <label htmlFor="nome" className='text-xl font-bold'>
-                                    Nome
-                                </label>
-
-                                <input type="text" id='nome' className='w-60 text-center h-10 rounded-md border-2 border-gray-300 focus:outline-none px-4'
-                                    value={militarDados.nome}
-                                    onChange={e => setMilitarDados({ ...militarDados, nome: e.target.value })}
-                                />
+                                <TextField label="Nome" defaultValue={militarDados.nome} variant="outlined" className='w-full' onChange={() => {
+                                    setMilitarDados({
+                                        ...militarDados,
+                                        nome: militarDados.nome
+                                    })
+                                }} />
 
                             </div>
 
-                            <div className='w-full flex-col flex justify-between items-center px-4 gap-1 rounded-md'>
-
-                                <label htmlFor="batalhao" className='text-xl font-bold'>
-                                    Batalhão
-                                </label>
-
-                                <select type="text" id='batalhao' className='w-60 text-center h-10 rounded-md border-2 focus:outline-none px-4'
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Batalhão</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
                                     value={militarDados.batalhao}
-                                    onChange={e => setMilitarDados({ ...militarDados, batalhao: e.target.value })}
+                                    label="Batalhão"
+                                    onChange={(e) => {
+                                        setMilitarDados({
+                                            ...militarDados,
+                                            batalhao: e.target.value
+                                        })
+                                    }}
                                 >
                                     {
-                                        batalhoes.map((batalhao, index) => {
+                                        batalhoes && batalhoes.map((batalhao, index) => {
                                             return (
-                                                <option key={index} value={batalhao.id}>{batalhao.nome}</option>
+                                                <MenuItem key={index} value={batalhao.id}>{batalhao.nome}</MenuItem>
                                             )
                                         })
                                     }
-                                </select>
+                                </Select>
+                            </FormControl>
 
-                            </div>
+                            <div className='w-full flex-col flex justify-between items-center py-2 gap-1 rounded-md' >
 
-                            <div className='w-full flex-col flex justify-between items-center px-4 gap-1 rounded-md'>
-
-                                <label htmlFor="dataCadastro" className='text-xl font-bold'>
-                                    Data de Cadastro
-                                </label>
-
-                                <input type="text" id='dataCadastro' disabled={true} className='w-60 text-center h-10 rounded-md border-2 border-gray-300 focus:outline-none px-4'
-                                    value={militarDados.dataCadastro}
-                                />
+                                <TextField label="Data de Cadastro" defaultValue={militarDados.dataCadastro} disabled variant="outlined" className='w-full' />
 
                             </div>
 
@@ -382,43 +363,42 @@ export default function BotaoAcoesMilitares(props) {
             <div className='w-full h-full flex justify-center relative'>
 
                 {/* Botao de acoes */}
-                <button
-                    ref={dropdownRef}
-                    onClick={() => setOpen(!open)}
-                    className='w-20 h-10 rounded-md bg-blue-500 hover:bg-blue-600 active:bg-blue-800 text-white text-xl focus:outline-none'
-                >
-                    Ações
-                </button>
-
-                <div className={`absolute top-10 left-0 w-full z-50 h-40 flex flex-col justify-around items-center bg-white rounded-md shadow-md ${open ? 'block' : 'hidden'}`}>
-
-                    <button
-                        onClick={() => {
-                            setOpenModalVisualizar(!openModalVisualizar)
-                            setOpen(!open)
+                <div>
+                    <Button
+                        id="basic-button"
+                        aria-controls={boOpen ? 'basic-menu' : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={boOpen ? 'true' : undefined}
+                        onClick={handleClick}
+                        variant="contained"
+                    >
+                        Ações
+                    </Button>
+                    <Menu
+                        id="basic-menu"
+                        anchorEl={anchorEl}
+                        open={boOpen}
+                        onClose={handleClose}
+                        MenuListProps={{
+                            'aria-labelledby': 'basic-button',
                         }}
-                        className='w-full h-full text-xl text-green-500 focus:outline-none border-2 hover:bg-slate-50'>
-                        Ver Mais
-                    </button>
+                    >
+                        <MenuItem
 
-                    <button
-                        onClick={() => {
+                            onClick={() => {
+                                handleClose()
+                                setOpenModalVisualizar(!openModalVisualizar)
+                            }}>Ver Mais</MenuItem>
+
+                        <MenuItem onClick={() => {
+                            handleClose()
                             setOpenModalEditar(!openModalEditar)
-                            setOpen(!open)
-                        }}
-                        className='w-full h-full text-xl text-blue-500 focus:outline-none border-2 hover:bg-slate-50'>
-                        Editar
-                    </button>
-
-                    <button
-                        onClick={() => {
+                        }}>Editar</MenuItem>
+                        <MenuItem onClick={() => {
+                            handleClose()
                             setOpenModalExcluir(!openModalExcluir)
-                            setOpen(!open)
-                        }}
-                        className='w-full h-full text-xl text-red-500 focus:outline-none border-2 hover:bg-slate-50'>
-                        Excluir
-                    </button>
-
+                        }}>Excluir</MenuItem>
+                    </Menu>
                 </div>
 
             </div>

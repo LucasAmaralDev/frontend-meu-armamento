@@ -3,13 +3,16 @@ import EscopoAdmin from '../../components/EscopoAdmin'
 import HOST from '../../services/host'
 import BotaoAcoesRegistro from '../../components/BotaoAcoesRegistro'
 import { useNavigate } from 'react-router-dom'
+import { Accordion, AccordionDetails, AccordionSummary, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
 export default function Registros() {
 
-    
+
 
     const infoPaginacao = {
-        itens_por_pagina: 8,
+        itens_por_pagina: 7,
     }
 
     const navigate = useNavigate()
@@ -98,100 +101,98 @@ export default function Registros() {
             <EscopoAdmin titulo="REGISTRO">
 
                 {/* CONTAINER DA PAGINA DE REGISTROS */}
-                <div className="w-full h-full overflow-y-auto max-lg:overflow-x-scroll p-4 max-lg:px-1">
-
-                    {/* PARTE DOS FILTROS */}
-                    <section className='w-full max-lg:hidden flex justify-center items-center flex-col p-2 gap-2 max-lg:gap-6'>
+                <div className="w-full h-full flex flex-col gap-3 overflow-y-auto max-lg:overflow-x-scroll p-4 max-lg:px-1 bg-stone-100">
 
 
-                        <div className='flex max-lg:flex-col max-lg:gap-4 w-full lg:justify-around lg:h-40 lg:items-center shadow-sm rounded-md'
-                        >
 
-                            <div
-                                className='flex flex-col justify-around items-center w-1/5 h-full max-lg:w-full'
+                    <div className='w-full'>
+                        <Accordion>
+                            <AccordionSummary
+
+                                expandIcon={<ExpandMoreIcon />}
+                                aria-controls="panel1a-content"
+                                id="panel1a-header"
                             >
-                                <label htmlFor='registroMilitar' className='text-lg'>Registro Militar</label>
+                                <Typography>Filtros</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
 
-                                <input
-                                    type='text'
-                                    id='registroMilitar'
-                                    placeholder='Insira o Registro Militar'
-                                    className='w-full px-2 py-1 rounded-md border-2 text-center border-gray-400 focus:border-blue-500 focus:outline-none text-base'
-                                    value={filtro.registroMilitar}
-                                    onChange={(e) => {
-                                        setFiltro({
-                                            ...filtro,
-                                            registroMilitar: e.target.value
-                                        })
-                                    }}
-                                />
-                            </div>
-
-                            <div
-                                className='flex flex-col justify-around items-center w-1/5 h-full max-lg:hidden'>
-                                <label htmlFor='numeroSerie' className='text-lg'>Numero de Serie</label>
-
-                                <input
-                                    type='text'
-                                    id='numeroSerie'
-                                    placeholder='Insira o Nome'
-                                    className='w-full px-2 py-1 rounded-md border-2 text-center border-gray-400 focus:border-blue-500 focus:outline-none text-base'
-                                    value={filtro.numeroSerie}
-                                    onChange={(e) => {
-                                        setFiltro({
-                                            ...filtro,
-                                            numeroSerie: e.target.value
-                                        })
-                                    }}
-                                />
-                            </div>
-
-                            <div
-                                className='flex flex-col justify-around items-center w-1/5 h-full max-lg:w-full'>
-                                <label htmlFor='dataDevolucao' className='text-lg'>Devolução</label>
-
-                                <select
-                                    id='dataDevolucao'
-                                    className='w-full px-2 py-1 rounded-md border-2 text-center border-gray-400 focus:border-blue-500 focus:outline-none text-base'
-                                    value={filtro.dataDevolucao}
-                                    onChange={(e) => {
-                                        setFiltro({
-                                            ...filtro,
-                                            dataDevolucao: e.target.value
-                                        })
-                                    }}
-                                >
-                                    <option value=''>Todos os Registros</option>
-                                    <option value='false'>Não Devolvidos</option>
-                                    <option value='true'>Devolvidos</option>
-                                </select>
-                            </div>
-
-                        </div>
+                                <section className='w-full flex justify-center items-center flex-col p-2 gap-2 max-lg:gap-6'>
 
 
 
+                                    <div className='flex max-lg:flex-col max-lg:gap-4 w-full lg:justify-around lg:h-20  lg:items-center shadow-sm rounded-md'
+                                    >
 
-                    </section>
+                                        <div className='flex flex-col justify-around items-center w-1/5 h-full max-lg:w-full' >
+
+                                            <TextField id="outlined-basic" label="Registro Militar" value={filtro.registroMilitar} variant="outlined" className='w-full' onChange={(e) => {
+                                                setFiltro({
+                                                    ...filtro,
+                                                    registroMilitar: e.target.value
+                                                })
+                                            }} />
+
+                                        </div>
+
+                                        <div
+                                            className='flex flex-col justify-around items-center w-1/5 h-full max-lg:hidden'>
 
 
+                                            <TextField id="outlined-basic" label="Numero de Série" variant="outlined" value={filtro.numeroSerie} className='w-full' onChange={(e) => {
+                                                setFiltro({
+                                                    ...filtro,
+                                                    numeroSerie: e.target.value
+                                                })
+                                            }} />
+
+                                        </div>
+
+                                        <div
+                                            className='flex flex-col justify-around items-center w-1/5 h-full max-lg:w-full'>
+                                            <FormControl fullWidth>
+                                                <InputLabel id="demo-simple-select-label">Devolução</InputLabel>
+                                                <Select
+                                                    labelId="demo-simple-select-label"
+                                                    id="demo-simple-select"
+                                                    value={filtro.dataDevolucao}
+                                                    label="Devolução"
+                                                    onChange={(e) => {
+                                                        setFiltro({
+                                                            ...filtro,
+                                                            dataDevolucao: e.target.value
+                                                        })
+                                                    }}
+                                                >
+                                                    <MenuItem value=''>Todos os Registros</MenuItem>
+                                                    <MenuItem value='false'>Não Devolvidos</MenuItem>
+                                                    <MenuItem value='true'>Devolvidos</MenuItem>
+                                                </Select>
+                                            </FormControl>
+
+                                        </div>
+                                    </div>
+
+
+
+
+                                </section>
+
+                            </AccordionDetails>
+                        </Accordion>
+                    </div>
 
 
                     {/* PARTE DA TABELA */}
                     <section className='w-full flex justify-center items-center flex-col p-2 gap-2 mb-1 max-lg:mb-24 max-lg:px-0 max-lg:flex-col-reverse'>
-                        <div className='max-lg:hidden'>
-                            <h1 className='text-4xl max-lg:text-lg'>REGISTROS</h1>
-                        </div>
+
                         <div>
-                            <button
-                                className='w-60 h-12 rounded-md bg-green-500 text-white text-lg focus:outline-none hover:bg-green-600 my-2'
-                                onClick={() => {
-                                    navigate('/registros/cadastrar')
-                                }}
-                            >
-                                Lançar Novo Registro
-                            </button>
+                            <Button variant="contained" startIcon={<AddIcon />} onClick={() => {
+                                navigate('/registros/cadastrar')
+                            }}>Novo Registro</Button>
+
                         </div>
+
 
                         <div className='w-full flex justify-center items-center flex-col gap-2 max-lg:gap-6 max-lg:items-start'>
                             <table className='w-full rounded-md shadow-md'>

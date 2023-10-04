@@ -1,14 +1,12 @@
+import AddIcon from '@mui/icons-material/Add'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import { Accordion, AccordionDetails, AccordionSummary, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material'
 import React, { useContext, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { ToasterContext } from '../../Context/ToasterContext'
+import BotaoAcoes from '../../components/BotaoAcoesArma'
 import EscopoAdmin from '../../components/EscopoAdmin'
 import HOST from '../../services/host'
-import BotaoAcoes from '../../components/BotaoAcoesArma'
-import { useNavigate } from 'react-router-dom'
-import { Accordion, AccordionDetails, AccordionSummary, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { AddIcCallOutlined } from '@mui/icons-material'
-import AddIcon from '@mui/icons-material/Add';
-import toast, { Toaster } from 'react-hot-toast';
-import { ToasterContext } from '../../Context/ToasterContext'
 /**
  * 
  * Informações sobre a página de Armas
@@ -40,7 +38,7 @@ export default function Armas() {
     const { toast } = useContext(ToasterContext)
 
     const infoPaginacao = {
-        itens_por_pagina: 8,
+        itens_por_pagina: 7,
     }
 
     const navigate = useNavigate()

@@ -6,7 +6,7 @@ import EscopoAdmin from '../../../components/EscopoAdmin'
 import ModalFabricantes from '../../../components/ModalFabricantes'
 import HOST from '../../../services/host'
 import { cssButtonConfirm, cssInput, cssSelect } from '../../../services/utils'
-import { FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material'
+import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material'
 
 export default function CadastrarArma() {
     const { toast } = useContext(ToasterContext)
@@ -104,14 +104,12 @@ export default function CadastrarArma() {
     return (
         <EscopoAdmin titulo="CADASTRAR ARMA">
 
-            <div className='w-full h-full flex flex-col items-center py-4 px-2 gap-6 overflow-auto max-lg:h-auto'>
-                <div className='max-lg:hidden'>
-                    <h1 className='text-2xl lg:text-6xl'>Cadastrar Arma</h1>
-                </div>
+            <div className='w-full h-full max-h-full flex flex-col px-2 gap-6 overflow-auto max-lg:h-auto'>
 
+                <p className='opacity-0'>a</p>
                 <form
                     onSubmit={handleSubmit(formularioNovaArma)}
-                    className='w-full h-full flex flex-col justify-center items-center gap-4'>
+                    className='w-full h-full flex flex-col justify-center items-center gap-4 py-8 mb-4'>
 
                     <TextField id="outlined-basic" label="Numero de Serie" variant="outlined" className='w-2/5 h-16' {...register('numeroSerie')} />
 
@@ -121,7 +119,7 @@ export default function CadastrarArma() {
                             <InputLabel id="demo-simple-select-label">Fabricante</InputLabel>
                             <Select
                                 label="Fabricante"
-                                {...register('fabricantes')}
+                                {...register('fabricante')}
 
                             >
                                 {
@@ -136,49 +134,45 @@ export default function CadastrarArma() {
                         <ModalFabricantes fabricantes={fabricantes} getFabricantes={getFabricantes} />
                     </div>
 
-                    <input type="text" {
-                        ...register('modelo')
-                    } placeholder='Modelo' className={cssInput} />
+                    <TextField label="Modelo" variant="outlined" className='w-2/5 h-16' {...register('modelo')} />
 
-                    <input type="text" {
-                        ...register('calibre')
-                    } placeholder='Calibre' className={cssInput} />
+                    <TextField label="Calibre" variant="outlined" className='w-2/5 h-16' {...register('calibre')} />
 
-                    <input type='number' {
-                        ...register('capacidadeCarregador')
-                    } placeholder='Capacidade do Carregador' className={cssInput} />
+                    <TextField label="Capacidade do Carregador" variant="outlined" className='w-2/5 h-16' {...register('capacidadeCarregador')} />
 
-                    <select {
-                        ...register('estadoConservacao')
-                    } className={cssSelect}>
-                        <option value="">Selecione o Estado de Conservação</option>
-                        <option value="NOVO">Novo</option>
-                        <option value="EXCELENTE">Excelente</option>
-                        <option value="BOM">Bom</option>
-                        <option value="REGULAR">Regular</option>
-                        <option value="BAIXADA">Baixada</option>
-                    </select>
+                    <div className='w-2/5 relative'>
+                        <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label">Estado de Conservação</InputLabel>
+                            <Select label="Estado de Conservação" {...register('estadoConservacao')} >
+                                <MenuItem value="NOVO">Novo</MenuItem>
+                                <MenuItem value="EXCELENTE">Excelente</MenuItem>
+                                <MenuItem value="BOM">Bom</MenuItem>
+                                <MenuItem value="REGULAR">Regular</MenuItem>
+                                <MenuItem value="BAIXADA">Baixada</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </div>
 
-                    <select {
-                        ...register('tipo')
-                    } className={cssSelect}>
-                        <option value="">Selecione o Tipo</option>
-                        <option value="1">Pistola</option>
-                        <option value="2">Revolver</option>
-                        <option value="3">Espingarda</option>
-                        <option value="4">Fuzil</option>
-                        <option value="5">Submetralhadora</option>
-                        <option value="6">Carabina</option>
-                        <option value="7">Escopeta</option>
-                    </select>
+                    <div className='w-2/5 relative'>
+                        <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label">Tipo</InputLabel>
+                            <Select label="Tipo" {...register('tipo')} >
+                                <MenuItem value="1">Pistola</MenuItem>
+                                <MenuItem value="2">Revolver</MenuItem>
+                                <MenuItem value="3">Espingarda</MenuItem>
+                                <MenuItem value="4">Fuzil</MenuItem>
+                                <MenuItem value="5">Submetralhadora</MenuItem>
+                                <MenuItem value="6">Carabina</MenuItem>
+                                <MenuItem value="7">Escopeta</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </div>
 
-                    <input {
-                        ...register('anoFabricacao')
-                    } type="number" placeholder='Ano de Fabricação' className={cssInput} />
+                    <TextField label="Ano de Fabricação" variant="outlined" className='w-2/5 h-16' {...register('anoFabricacao')} />
 
-                    <button {
-                        ...register('cadastrar')
-                    } type='submit' className={cssButtonConfirm}>Cadastrar</button>
+                    <Button variant="contained" className='w-2/5' color='success' type='submit' >Cadastrar</Button>
+
+                    <p className='opacity-0'>a</p>
                 </form>
             </div>
         </EscopoAdmin>

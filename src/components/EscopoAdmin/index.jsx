@@ -56,7 +56,7 @@ export default function EscopoAdmin({ children, titulo }) {
                 </section>
 
                 <section
-                    className='max-h-full w-full h-full overflow-clip relative max-lg:overflow-x-auto'
+                    className='w-full h-full flex flex-col overflow-clip relative max-lg:overflow-x-auto'
                 >
                     {children}
 

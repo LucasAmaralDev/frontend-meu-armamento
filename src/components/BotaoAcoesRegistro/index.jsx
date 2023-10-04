@@ -1,10 +1,23 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { ToasterContext } from '../../Context/ToasterContext'
 import HOST from '../../services/host'
+import Button from '@mui/material/Button';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
 export default function BotaoAcoesRegistro(props) {
 
-    const [open, setOpen] = useState(false)
+    const [anchorEl, setAnchorEl] = useState(null)
+    const boOpen = Boolean(anchorEl)
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    }
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
     const { toast } = useContext(ToasterContext)
 
     const [openModalVisualizar, setOpenModalVisualizar] = useState(false)
@@ -21,30 +34,6 @@ export default function BotaoAcoesRegistro(props) {
         dataDevolucao: props.registro.dataDevolucao,
         armeiroResponsavel: props.registro.armeiro.nome,
     })
-
-    // Função para fechar o dropdown quando o usuário clica fora dele
-    const dropdownRef = useRef(null);
-
-    const closeDropdown = (e) => {
-        setTimeout(() => {
-          if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-            setOpen(false);
-          }
-        }, 250)
-      };
-
-    useEffect(() => {
-        // Adicionar um event listener para cliques no documento inteiro
-        document.addEventListener('mousedown', closeDropdown);
-
-        // Remover o event listener quando o componente é desmontado
-        return () => {
-            document.removeEventListener('mousedown', closeDropdown);
-        };
-    }, []);
-
-
-
 
     async function atualizarRegistro() {
 
@@ -64,7 +53,7 @@ export default function BotaoAcoesRegistro(props) {
         const data = await response.json()
 
         if (response.ok) {
-            toast.success("Devolução registrada",{
+            toast.success("Devolução registrada", {
                 id: toastDevolucao
             })
             props.atualizarDados()
@@ -93,7 +82,7 @@ export default function BotaoAcoesRegistro(props) {
         const data = await response.json()
 
         if (response.ok) {
-            toast.success("Registro excluido",{
+            toast.success("Registro excluido", {
                 id: toastExcluir
             })
             props.atualizarDados()
@@ -348,51 +337,49 @@ export default function BotaoAcoesRegistro(props) {
             <div className='w-full h-full flex justify-center relative'>
 
                 {/* Botao de acoes */}
-                <button
-                ref={dropdownRef}
-                    onClick={() => setOpen(!open)}
-                    className='w-20 h-10 rounded-md bg-blue-500 hover:bg-blue-600 active:bg-blue-800 text-white text-xl focus:outline-none'
-                >
-                    Ações
-                </button>
 
-                
-
-                <div className={`absolute top-10 left-0 w-full z-50 h-40 flex flex-col justify-around items-center bg-white rounded-md shadow-md ${open ? 'block' : 'hidden'}`}>
-
-                    <button
-                        onClick={() => {
-                            setOpenModalVisualizar(!openModalVisualizar)
-                            setOpen(!open)
+                <div>
+                    <Button
+                        id="basic-button"
+                        aria-controls={boOpen ? 'basic-menu' : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={boOpen ? 'true' : undefined}
+                        onClick={handleClick}
+                        variant="contained"
+                    >
+                        Ações
+                    </Button>
+                    <Menu
+                        id="basic-menu"
+                        anchorEl={anchorEl}
+                        open={boOpen}
+                        onClose={handleClose}
+                        MenuListProps={{
+                            'aria-labelledby': 'basic-button',
                         }}
-                        className='w-full h-full text-xl text-green-500 focus:outline-none border-2 hover:bg-slate-50'>
-                        Ver Mais
-                    </button>
+                    >
+                        <MenuItem
 
-                    {
-                    registroDados.dataDevolucao === null &&
+                            onClick={() => {
+                                handleClose()
+                                setOpenModalVisualizar(!openModalVisualizar)
+                            }}>Ver Mais</MenuItem>
 
-                    <button
-                        onClick={() => {
-                            setOpenModalEditar(!openModalEditar)
-                            setOpen(!open)
-                        }}
-                        className='w-full h-full text-xl text-blue-500 focus:outline-none border-2 hover:bg-slate-50'>
-                        Registrar Devolução
-                    </button>
-                    }
+                        {
+                            registroDados.dataDevolucao === null &&
 
-                    
+                            <MenuItem onClick={() => {
+                                handleClose()
+                                setOpenModalEditar(!openModalEditar)
+                            }}>Registrar Devolução</MenuItem>
+                        }
 
-                    <button
-                        onClick={() => {
+
+                        <MenuItem onClick={() => {
+                            handleClose()
                             setOpenModalExcluir(!openModalExcluir)
-                            setOpen(!open)
-                        }}
-                        className='w-full h-full text-xl text-red-500 focus:outline-none border-2 hover:bg-slate-50'>
-                        Excluir
-                    </button>
-
+                        }}>Excluir</MenuItem>
+                    </Menu>
                 </div>
 
             </div>

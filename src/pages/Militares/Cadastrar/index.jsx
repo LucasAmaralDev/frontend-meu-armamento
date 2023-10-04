@@ -6,6 +6,7 @@ import EscopoAdmin from '../../../components/EscopoAdmin'
 import ModalBatalhoes from '../../../components/ModaBatalhaoes'
 import HOST from '../../../services/host'
 import { cssButtonConfirm, cssInput } from '../../../services/utils'
+import { FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material'
 
 export default function CadastrarMilitar() {
 
@@ -52,7 +53,7 @@ export default function CadastrarMilitar() {
         const dataResponse = await response.json()
 
         if (response.ok) {
-            toast.success(dataResponse.nome + " cadastrado com sucesso",{
+            toast.success(dataResponse.nome + " cadastrado com sucesso", {
                 id: toastNovoMilitar
             })
             navigate('/militares')
@@ -82,28 +83,27 @@ export default function CadastrarMilitar() {
                     onSubmit={handleSubmit(formularioNovoMilitar)}
                     className='w-full h-full flex flex-col justify-center items-center gap-10'>
 
-                    <input type="text" {
-                        ...register('registroMilitar')
-                    } placeholder='Registro Militar' className={cssInput} />
+                    <TextField label="Registro Militar" variant="outlined" className='w-2/5 h-16' {...register('registroMilitar')} />
 
-                    <input type="text" {
-                        ...register('nome')
-                    } placeholder='Nome' className={cssInput} />
+                    <TextField label="Nome" variant="outlined" className='w-2/5 h-16' {...register('nome')} />
 
 
-                    <div className='w-full flex flex-col items-center gap-2'>
-                        <select type="text" {
-                            ...register('batalhao')
-                        } placeholder='Batalhão' className={cssInput}>
-                            <option value="">Selecione um Batalhão</option>
-                            {
-                                batalhoes.map((batalhao, index) => {
-                                    return (
-                                        <option key={index} value={batalhao.id}>{batalhao.nome}</option>
-                                    )
-                                })
-                            }
-                        </select>
+
+
+                    <div className='w-2/5 flex flex-col items-center gap-2'>
+
+                        <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label">Estado de Conservação</InputLabel>
+                            <Select label="Estado de Conservação" {...register('batalhao')} >
+                                {
+                                    batalhoes.map((batalhao, index) => {
+                                        return (
+                                            <MenuItem key={index} value={batalhao.id}>{batalhao.nome}</MenuItem>
+                                        )
+                                    })
+                                }
+                            </Select>
+                        </FormControl>
                         <ModalBatalhoes batalhoes={batalhoes} getBatalhoes={getBatalhoes} />
 
                     </div>
