@@ -33,12 +33,27 @@ export default function GraficoUsoArmas(props) {
             <div className="flex items-center flex-col gap-8 py-8 w-full max-lg:hidden">
 
                 <h3 className='text-3xl'> Arsenal de Armas</h3>
-                <ReactApexChart
-                    options={donutChartData.options}
-                    series={donutChartData.series}
-                    type="donut"
-                    width="600"
-                />
+                <div>
+                    <ReactApexChart
+                        options={donutChartData.options}
+                        series={donutChartData.series}
+                        type="donut"
+                        width="600"
+                    />
+                </div>
+            </div>
+
+            <div className="flex items-center flex-col gap-8 py-8 w-full justify-center h-full lg:hidden">
+
+                <h3 className='text-3xl'> Arsenal de Armas</h3>
+                <div>
+                    <ReactApexChart
+                        options={donutChartData.options}
+                        series={donutChartData.series}
+                        type="donut"
+                        width="450"
+                    />
+                </div>
             </div>
 
         </>

@@ -40,7 +40,6 @@ export default function FormRegistro(props) {
             return
         }
 
-        console.log(data)
 
         const response = await fetch(HOST + 'signup', {
             method: 'POST',
@@ -57,7 +56,7 @@ export default function FormRegistro(props) {
                 id: registerToast,
             });
             return
-            
+
         }
 
         localStorage.setItem('token', dataResponse.token)
@@ -71,7 +70,7 @@ export default function FormRegistro(props) {
         <>
 
             <form onSubmit={handleSubmit(cadastrar)}
-                className='h-full w-5/12 flex bg-white flex-col justify-center items-center gap-4 px-4'
+                className='h-full w-5/12 flex bg-white flex-col justify-center items-center gap-4 px-4 max-lg:w-full'
             >
                 <h1 className='text-4xl font-bold text-gray-900'>Registro</h1>
 

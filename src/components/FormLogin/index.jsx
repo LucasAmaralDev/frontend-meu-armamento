@@ -69,8 +69,9 @@ export default function FormLogin(props) {
             <ModalResposta modal={open} setModal={setOpen} mensagem={dados.mensagem} titulo={dados.titulo} />
 
             <form onSubmit={handleSubmit(fazerLogin)}
-                className='h-full w-5/12 flex bg-white flex-col justify-center items-center gap-4 px-4'
+                className='h-full w-5/12 flex bg-white flex-col justify-center items-center gap-4 px-4 max-lg:w-full'
             >
+
                 <h1 className='text-4xl font-bold text-gray-900'>Login</h1>
 
                 <TextField id="outlined-basic" label="Registro Militar" variant="outlined" {...register('registroMilitar')} className='w-full' />
@@ -80,7 +81,6 @@ export default function FormLogin(props) {
                 <Button variant="contained" className='w-full h-12 bg-gray-900 text-white rounded-lg' color='success' type='submit' >Entrar</Button>
 
                 <div className='text-gray-900 cursor-pointer' onClick={() => {
-                    console.log('click')
                     setPagina('Registro')
                 }}>Não tenho cadastro</div>
 

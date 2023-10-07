@@ -72,13 +72,6 @@ export default function EditarPerfil() {
                             <div className="flex flex-col gap-2 max-lg:gap-4 w-full items-center">
 
                                 <label className="flex flex-col items-center gap-1 max-lg:gap-2 w-full max-lg:w-4/5">
-                                    <span>ID</span>
-                                    <input className={cssInput} type="text"
-                                        disabled={true}
-                                        defaultValue={meusDados.id} />
-                                </label>
-
-                                <label className="flex flex-col items-center gap-1 max-lg:gap-2 w-full max-lg:w-4/5">
                                     <span>registroMilitar</span>
                                     <input className={cssInput} type="text"
                                         disabled={true}

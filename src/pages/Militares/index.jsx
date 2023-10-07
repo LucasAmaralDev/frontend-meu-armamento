@@ -38,7 +38,6 @@ export default function Militares() {
         if (response.ok) {
             setMilitares(dados)
             setMilitaresFiltrados(dados)
-            console.log(dados)
         }
 
         else {
@@ -69,7 +68,6 @@ export default function Militares() {
         // Caso nao haja nenhum filtro aplicado, a lista de militares Filtrados recebe todas as armas
         if (filtro.registroMilitar.length < 1 && filtro.nome.length < 1 && filtro.batalhao.length < 1) {
             setMilitaresFiltrados(militares)
-            console.log(listaDeMilitares)
             return
         }
 
@@ -165,7 +163,7 @@ export default function Militares() {
 
                                         </div>
 
-                                        
+
                                     </div>
 
 
@@ -182,7 +180,7 @@ export default function Militares() {
                     {/* PARTE DA TABELA */}
                     <section className='w-full flex justify-center items-center flex-col p-2 gap-2 mb-1 max-lg:mb-24 max-lg:px-0 max-lg:flex-col-reverse'>
                         <div>
-                        <Button variant="contained" startIcon={<AddIcon />} onClick={() => {
+                            <Button variant="contained" startIcon={<AddIcon />} onClick={() => {
                                 navigate('/militares/cadastrar')
                             }}>Cadastrar Militar</Button>
                         </div>

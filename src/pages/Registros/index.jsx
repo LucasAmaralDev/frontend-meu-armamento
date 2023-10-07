@@ -43,7 +43,7 @@ export default function Registros() {
         }
         else {
             localStorage.clear()
-            window.location.href = '/login'
+            window.location.href = '/'
         }
 
     }
@@ -69,7 +69,6 @@ export default function Registros() {
         // Caso nao haja nenhum filtro aplicado, a lista de registros Filtrados recebe todas as armas
         if (filtro.registroMilitar.length < 1 && filtro.numeroSerie.length < 1 && filtro.dataDevolucao.length < 1) {
             setRegistrosFiltrados(registros)
-            console.log(listaDeMilitares)
             return
         }
 

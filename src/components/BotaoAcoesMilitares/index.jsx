@@ -55,7 +55,6 @@ export default function BotaoAcoesMilitares(props) {
         if (response.ok) {
             setBatalhoes(dataResponse)
         }
-        console.log(dataResponse)
     }
 
     useEffect(() => {

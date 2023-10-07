@@ -2,9 +2,6 @@
 
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { App } from './App'
-import Login from './pages/Login'
-import Register from './pages/Register'
 import Home from './pages/Home'
 import Armas from './pages/Armas'
 import Militares from './pages/Militares'
@@ -22,7 +19,7 @@ function VerificarLogado({ children }) {
   if (token) {
     return children
   } else {
-    window.location.href = '/login'
+    window.location.href = '/'
     return null
   }
 }
@@ -34,10 +31,6 @@ export function Navigations() {
       <Routes>
 
         <Route path="/" element={<LoginNew />} />
-
-        <Route path="/login" element={<Login />} />
-
-        <Route path="/register" element={<Register />} />
 
         <Route path="/home" element={
           <VerificarLogado>

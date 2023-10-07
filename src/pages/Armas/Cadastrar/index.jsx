@@ -25,7 +25,6 @@ export default function CadastrarArma() {
         if (response.ok) {
             setFabricantes(dataResponse)
         }
-        console.log(dataResponse)
     }
 
     useEffect(() => {
@@ -37,7 +36,6 @@ export default function CadastrarArma() {
     }
 
     async function formularioNovaArma(data) {
-        console.log(data)
         const toastArma = toast.loading('Cadastrando arma...');
         const tratamento = {
             ...data,
@@ -79,9 +77,6 @@ export default function CadastrarArma() {
         })
 
         const dataResponse = await response.json()
-
-        console.log(response)
-        console.log(dataResponse)
 
         if (response.ok) {
             toast.success(dataResponse.message, {

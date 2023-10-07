@@ -27,7 +27,6 @@ export default function GraficoArmasPorParametros() {
                     },
                     xaxis: {
                         categories: dataResponse.map((element) => {
-                            console.log(element)
                             return element.tipo
                         })
                     }
@@ -38,7 +37,6 @@ export default function GraficoArmasPorParametros() {
                 }]
             })
         }
-        console.log(dataResponse)
 
     }
 
@@ -69,7 +67,6 @@ export default function GraficoArmasPorParametros() {
                     },
                     xaxis: {
                         categories: dataResponse.map((element) => {
-                            console.log(element)
                             return element.estadoConservacao
                         })
                     }
@@ -81,7 +78,6 @@ export default function GraficoArmasPorParametros() {
             })
         }
 
-        console.log(dataResponse)
     }
 
     useEffect(() => {
@@ -96,17 +92,36 @@ export default function GraficoArmasPorParametros() {
 
                 armasPorTipo.length > 0 &&
 
-                <div className="flex items-center flex-col gap-8 py-8 w-full max-lg:w-full">
+                <>
 
-                    <h3 className='text-3xl'> Armas por Tipo</h3>
+                    <div className="flex items-center flex-col gap-8 py-8 w-full max-lg:hidden">
 
-                    <ReactApexChart
-                        options={chartArmasPorTipo.options}
-                        series={chartArmasPorTipo.series}
-                        type="bar"
-                        width="700"
-                    />
-                </div>
+                        <h3 className='text-3xl'> Armas por Tipo</h3>
+
+                        <ReactApexChart
+                            options={chartArmasPorTipo.options}
+                            series={chartArmasPorTipo.series}
+                            type="bar"
+                            width="700"
+                        />
+                    </div>
+
+                    <div className="flex items-center flex-col gap-8 py-8 h-full justify-center w-full lg:hidden">
+
+                        <h3 className='text-2xl text-center'> Armas por Tipo</h3>
+
+                        <ReactApexChart
+                            options={chartArmasPorTipo.options}
+                            series={chartArmasPorTipo.series}
+                            type="bar"
+                            width="450"
+                        />
+                    </div>
+
+                </>
+
+
+
 
             }
 
@@ -114,18 +129,34 @@ export default function GraficoArmasPorParametros() {
             {
 
                 armasPorEstadoConservacao.length > 0 &&
+                <>
 
-                <div className="flex items-center flex-col gap-8 py-8 w-full">
+                    <div className="flex items-center flex-col gap-8 py-8 w-full max-lg:hidden">
 
-                    <h3 className='text-3xl'> Armas por Estado de Conservação</h3>
+                        <h3 className='text-3xl'> Armas por Estado de Conservação</h3>
 
-                    <ReactApexChart
-                        options={chartArmasPorEstadoConservacao.options}
-                        series={chartArmasPorEstadoConservacao.series}
-                        type="bar"
-                        width="700"
-                    />
-                </div>
+                        <ReactApexChart
+                            options={chartArmasPorEstadoConservacao.options}
+                            series={chartArmasPorEstadoConservacao.series}
+                            type="bar"
+                            width="700"
+                        />
+                    </div>
+
+                    <div className="flex items-center flex-col gap-8 py-8 w-full lg:hidden">
+
+                        <h3 className='text-2xl text-center'> Armas por Estado de Conservação</h3>
+
+                        <ReactApexChart
+                            options={chartArmasPorEstadoConservacao.options}
+                            series={chartArmasPorEstadoConservacao.series}
+                            type="bar"
+                            width="400"
+                        />
+                    </div>
+
+                </>
+
 
 
             }

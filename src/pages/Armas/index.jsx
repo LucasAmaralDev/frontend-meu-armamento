@@ -64,7 +64,6 @@ export default function Armas() {
 
         const dados = await response.json()
 
-        console.log(dados)
         setArmas(dados)
 
     }
