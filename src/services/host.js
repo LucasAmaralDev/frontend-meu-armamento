@@ -1,3 +1,3 @@
-const HOST = 'http://localhost:3000/'
+const HOST = 'http://gestaoarmas.devlucas.online/'
 
 export default HOST;
